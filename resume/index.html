@@ -1,0 +1,1581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ankit Kumar | MBA Finance Resume & Academic Portfolio</title>
+  <meta name="description" content="Academic resume and portfolio of Ankit Kumar, MBA Finance student. Featuring academic presentations on finance, investment, FinTech and economics.">
+  <meta name="author" content="Ankit Kumar">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Ankit Kumar | MBA Finance Resume & Academic Portfolio">
+  <meta property="og:description" content="Academic portfolio and resume of Ankit Kumar, MBA Finance student with an academic presentation archive.">
+  <meta property="og:type" content="profile">
+  <meta property="og:url" content="https://ankit19.me/resume/">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  
+  <!-- Typography: Playfair Display (Serif), Plus Jakarta Sans (Clean Sans), JetBrains Mono (Metadata/Tags) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================================================
+       DESIGN SYSTEM & TOKENS
+       Palette: Warm Off-White, Deep Navy, Restrained Bronze
+       ========================================================= */
+    :root {
+      --bg-page: #FAF7F2;
+      --bg-card: #FFFFFF;
+      --bg-card-subtle: #FDFBF7;
+      --bg-bronze-light: #F7EFE4;
+      --bg-bronze-soft: #F9F3EA;
+      --bg-navy-light: #EEF2F8;
+
+      --navy-950: #071224;
+      --navy-900: #0B1A30;
+      --navy-800: #12243F;
+      --navy-700: #1A3357;
+      --navy-600: #254673;
+      --navy-500: #33598D;
+
+      --bronze-800: #7A5328;
+      --bronze-700: #8E6030;
+      --bronze-600: #A27039;
+      --bronze-500: #B88344;
+      --bronze-400: #CE9B5B;
+      --bronze-200: #EAD9C6;
+      --bronze-100: #F4EBE0;
+
+      --text-main: #1C2430;
+      --text-secondary: #475467;
+      --text-muted: #667085;
+      --text-light: #98A2B3;
+
+      --border-subtle: #E8E2D8;
+      --border-medium: #D5CCC0;
+      --border-bronze: #D9C2A7;
+
+      --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', Consolas, monospace;
+
+      --shadow-sm: 0 1px 2px rgba(11, 26, 48, 0.04);
+      --shadow-md: 0 4px 14px -2px rgba(11, 26, 48, 0.06), 0 2px 6px -1px rgba(11, 26, 48, 0.03);
+      --shadow-lg: 0 14px 30px -4px rgba(11, 26, 48, 0.08), 0 4px 10px -2px rgba(11, 26, 48, 0.03);
+
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --radius-full: 9999px;
+    }
+
+    /* Reset & Base Rules */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      color: var(--navy-700);
+      text-decoration: none;
+      transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+    }
+
+    a:hover {
+      color: var(--bronze-600);
+    }
+
+    /* =========================================================
+       SCREEN UTILITY BAR (Sticky at top, hidden on print)
+       ========================================================= */
+    .screen-header-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250, 247, 242, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .screen-header-inner {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand-nav {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-serif);
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--navy-900);
+      letter-spacing: -0.01em;
+    }
+
+    .brand-link:hover {
+      color: var(--bronze-600);
+    }
+
+    .brand-badge {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      background: var(--bg-bronze-light);
+      color: var(--bronze-800);
+      padding: 3px 9px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-bronze);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-utility {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 13.5px;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      border: 1px solid transparent;
+      text-decoration: none;
+      line-height: 1;
+    }
+
+    .btn-utility-ghost {
+      color: var(--navy-800);
+      border-color: var(--border-medium);
+      background: var(--bg-card);
+    }
+
+    .btn-utility-ghost:hover {
+      background: var(--bg-card-subtle);
+      border-color: var(--bronze-500);
+      color: var(--bronze-700);
+      transform: translateY(-1px);
+    }
+
+    .btn-utility-primary {
+      background: var(--navy-900);
+      color: #FFFFFF !important;
+      border-color: var(--navy-900);
+      box-shadow: 0 1px 3px rgba(11, 26, 48, 0.15);
+    }
+
+    .btn-utility-primary:hover {
+      background: var(--navy-700);
+      border-color: var(--navy-700);
+      transform: translateY(-1px);
+      box-shadow: 0 3px 8px rgba(11, 26, 48, 0.25);
+    }
+
+    /* =========================================================
+       DOCUMENT WRAPPER & RESUME CANVAS
+       ========================================================= */
+    .resume-wrapper {
+      flex: 1;
+      max-width: 980px;
+      width: 100%;
+      margin: 32px auto 60px;
+      padding: 0 20px;
+    }
+
+    .resume-paper {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      padding: 56px 64px;
+      position: relative;
+    }
+
+    /* Top decorative bronze accent line */
+    .resume-paper::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--navy-900) 0%, var(--bronze-600) 45%, var(--bronze-400) 55%, var(--navy-900) 100%);
+      border-top-left-radius: var(--radius-md);
+      border-top-right-radius: var(--radius-md);
+    }
+
+    /* =========================================================
+       HEADER SECTION
+       ========================================================= */
+    .resume-header {
+      border-bottom: 2px solid var(--navy-900);
+      padding-bottom: 28px;
+      margin-bottom: 32px;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .name-title-group {
+      flex: 1;
+      min-width: 280px;
+    }
+
+    .candidate-name {
+      font-family: var(--font-serif);
+      font-size: 38px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--navy-900);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .candidate-subtitle {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--bronze-700);
+      letter-spacing: 0.01em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .candidate-subtitle .separator {
+      color: var(--border-medium);
+      font-weight: 400;
+    }
+
+    .contact-grid {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 7px;
+      font-size: 13.5px;
+      color: var(--text-secondary);
+    }
+
+    .contact-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-secondary);
+      transition: color 0.15s ease;
+    }
+
+    .contact-item svg {
+      width: 15px;
+      height: 15px;
+      color: var(--bronze-600);
+      flex-shrink: 0;
+    }
+
+    .contact-item a {
+      color: var(--navy-800);
+      font-weight: 500;
+      border-bottom: 1px dotted var(--border-medium);
+    }
+
+    .contact-item a:hover {
+      color: var(--bronze-600);
+      border-bottom-color: var(--bronze-600);
+    }
+
+    /* Sub-header meta bar */
+    .header-meta-bar {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .meta-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .meta-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border-subtle);
+      padding: 3px 10px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--navy-800);
+    }
+
+    .meta-pill.accent {
+      background: var(--bg-bronze-light);
+      border-color: var(--border-bronze);
+      color: var(--bronze-800);
+      font-weight: 600;
+    }
+
+    /* =========================================================
+       SECTION TITLES
+       ========================================================= */
+    .resume-section {
+      margin-bottom: 34px;
+      page-break-inside: avoid;
+    }
+
+    .resume-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy-900);
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--border-medium) 0%, transparent 100%);
+    }
+
+    .section-title .section-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-bronze-light);
+      color: var(--bronze-700);
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    /* =========================================================
+       ACADEMIC PROFILE CARD
+       ========================================================= */
+    .profile-card {
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border-subtle);
+      border-left: 3px solid var(--bronze-600);
+      border-radius: var(--radius-sm);
+      padding: 18px 22px;
+      font-size: 14.5px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+    }
+
+    .profile-card p + p {
+      margin-top: 10px;
+    }
+
+    .profile-card strong {
+      color: var(--navy-900);
+      font-weight: 600;
+    }
+
+    /* =========================================================
+       EDUCATION
+       ========================================================= */
+    .edu-entry {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 20px 24px;
+    }
+
+    .edu-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .edu-degree {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy-900);
+    }
+
+    .edu-status {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--bronze-800);
+      background: var(--bg-bronze-light);
+      padding: 3px 10px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-bronze);
+    }
+
+    .edu-specialization {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--bronze-700);
+      margin-bottom: 12px;
+    }
+
+    .edu-modules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px dashed var(--border-subtle);
+    }
+
+    .edu-module-item {
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .edu-module-item::before {
+      content: " - ";
+      color: var(--bronze-600);
+      font-size: 13px;
+      line-height: 1.4;
+      flex-shrink: 0;
+    }
+
+    /* =========================================================
+       PRESENTATIONS ARCHIVE (Linked Academic Work)
+       ========================================================= */
+    .presentations-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 18px;
+    }
+
+    .presentation-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 20px 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    .presentation-card:hover {
+      border-color: var(--bronze-500);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .card-top {
+      margin-bottom: 12px;
+    }
+
+    .card-meta-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 12px;
+    }
+
+    .badge-category {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      background: var(--bg-navy-light);
+      color: var(--navy-800);
+      border: 1px solid #D6E0EE;
+    }
+
+    .badge-category.finance {
+      background: #EFF6FF;
+      color: #1E40AF;
+      border-color: #BFDBFE;
+    }
+
+    .badge-category.fintech {
+      background: #F0FDF4;
+      color: #166534;
+      border-color: #BBF7D0;
+    }
+
+    .badge-category.investment {
+      background: var(--bg-bronze-light);
+      color: var(--bronze-800);
+      border-color: var(--border-bronze);
+    }
+
+    .badge-category.economics {
+      background: #FAF5FF;
+      color: #6B21A8;
+      border-color: #E9D5FF;
+    }
+
+    .card-date {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    .card-title {
+      font-size: 16.5px;
+      font-weight: 700;
+      color: var(--navy-900);
+      line-height: 1.35;
+      margin-bottom: 8px;
+    }
+
+    .card-title a {
+      color: var(--navy-900);
+    }
+
+    .card-title a:hover {
+      color: var(--bronze-600);
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      margin-bottom: 14px;
+    }
+
+    .card-topics {
+      margin-bottom: 14px;
+    }
+
+    .topics-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .topic-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .topic-list li {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .topic-list li::before {
+      content: " - ";
+      color: var(--bronze-600);
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    .card-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .btn-card {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .btn-card-outline {
+      color: var(--navy-800);
+      border: 1px solid var(--border-medium);
+      background: var(--bg-card);
+    }
+
+    .btn-card-outline:hover {
+      border-color: var(--bronze-500);
+      color: var(--bronze-700);
+      background: var(--bg-card-subtle);
+    }
+
+    .btn-card-filled {
+      background: var(--navy-900);
+      color: #FFFFFF !important;
+      border: 1px solid var(--navy-900);
+    }
+
+    .btn-card-filled:hover {
+      background: var(--navy-700);
+      border-color: var(--navy-700);
+    }
+
+    /* =========================================================
+       COMPETENCIES (Faithful to demonstrated coursework)
+       ========================================================= */
+    .competencies-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .competency-group {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 16px 18px;
+    }
+
+    .group-header {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy-900);
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .group-header .group-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--bronze-600);
+    }
+
+    .pill-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .competency-tag {
+      font-size: 12px;
+      color: var(--text-secondary);
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border-subtle);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    /* =========================================================
+       PROJECT HIGHLIGHT: PRESENTATION VAULT
+       ========================================================= */
+    .project-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 20px 24px;
+    }
+
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .project-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--navy-900);
+    }
+
+    .project-badge {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--bronze-800);
+      background: var(--bg-bronze-light);
+      padding: 2px 10px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-bronze);
+    }
+
+    .project-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+
+    .project-features {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 8px;
+    }
+
+    .project-features li {
+      font-size: 13px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+    }
+
+    .project-features li::before {
+      content: " - ";
+      color: var(--bronze-600);
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+    .resume-footer {
+      margin-top: 36px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 12.5px;
+      color: var(--text-muted);
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .footer-links a {
+      color: var(--navy-800);
+      font-weight: 500;
+    }
+
+    .footer-links a:hover {
+      color: var(--bronze-600);
+    }
+
+    /* =========================================================
+       RESPONSIVE BREAKPOINTS (Screen)
+       ========================================================= */
+    @media (max-width: 820px) {
+      .resume-paper {
+        padding: 36px 28px;
+      }
+
+      .candidate-name {
+        font-size: 30px;
+      }
+
+      .contact-grid {
+        align-items: flex-start;
+      }
+
+      .header-top {
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .presentations-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .screen-header-inner {
+        padding: 10px 16px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .resume-wrapper {
+        margin: 16px auto 40px;
+        padding: 0 12px;
+      }
+
+      .resume-paper {
+        padding: 28px 18px;
+      }
+
+      .candidate-name {
+        font-size: 26px;
+      }
+
+      .candidate-subtitle {
+        font-size: 15px;
+      }
+
+      .brand-badge {
+        display: none;
+      }
+
+      .btn-utility span {
+        display: none;
+      }
+
+      .btn-utility {
+        padding: 8px 10px;
+      }
+    }
+
+    /* =========================================================
+       PRINT STYLESHEET (@media print)
+       Clean, professional executive print rendering
+       ========================================================= */
+    @media print {
+      @page {
+        margin: 12mm 15mm 12mm 15mm;
+        size: letter portrait;
+      }
+
+      .screen-only,
+      .screen-header-bar,
+      .btn-card,
+      .card-actions,
+      .btn-utility {
+        display: none !important;
+      }
+
+      body {
+        background: #FFFFFF !important;
+        color: #0F172A !important;
+        font-size: 10.5pt !important;
+        line-height: 1.45 !important;
+      }
+
+      .resume-wrapper {
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      .resume-paper {
+        background: #FFFFFF !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        border-radius: 0 !important;
+      }
+
+      .resume-paper::before {
+        display: none !important;
+      }
+
+      .resume-header {
+        border-bottom: 2pt solid #0B1A30 !important;
+        padding-bottom: 10pt !important;
+        margin-bottom: 14pt !important;
+      }
+
+      .candidate-name {
+        font-size: 22pt !important;
+        color: #0B1A30 !important;
+        margin-bottom: 3pt !important;
+      }
+
+      .candidate-subtitle {
+        font-size: 11.5pt !important;
+        color: #7A5328 !important;
+      }
+
+      .contact-grid {
+        align-items: flex-end !important;
+        font-size: 9pt !important;
+      }
+
+      .header-meta-bar {
+        margin-top: 6pt !important;
+        padding-top: 6pt !important;
+        font-size: 8.5pt !important;
+      }
+
+      .meta-pill {
+        border: 1px solid #CBD5E1 !important;
+        background: #F8FAFC !important;
+        padding: 1pt 5pt !important;
+        font-size: 8pt !important;
+      }
+
+      .resume-section {
+        margin-bottom: 14pt !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      .section-title {
+        font-size: 12.5pt !important;
+        color: #0B1A30 !important;
+        margin-bottom: 6pt !important;
+      }
+
+      .section-title .section-icon {
+        display: none !important;
+      }
+
+      .profile-card {
+        background: #FFFFFF !important;
+        border: 1px solid #E2E8F0 !important;
+        border-left: 2.5pt solid #8E6030 !important;
+        padding: 6pt 10pt !important;
+        font-size: 9.5pt !important;
+        line-height: 1.45 !important;
+      }
+
+      .edu-entry {
+        border: 1px solid #E2E8F0 !important;
+        padding: 6pt 10pt !important;
+      }
+
+      .edu-degree {
+        font-size: 11pt !important;
+      }
+
+      .edu-status {
+        font-size: 8pt !important;
+        padding: 1pt 5pt !important;
+      }
+
+      .edu-modules-grid {
+        margin-top: 5pt !important;
+        padding-top: 5pt !important;
+        gap: 3pt !important;
+      }
+
+      .edu-module-item {
+        font-size: 8.5pt !important;
+      }
+
+      .presentations-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 6pt !important;
+      }
+
+      .presentation-card {
+        border: 1px solid #E2E8F0 !important;
+        padding: 6pt 8pt !important;
+        box-shadow: none !important;
+        transform: none !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      .card-title {
+        font-size: 10pt !important;
+        margin-bottom: 2pt !important;
+      }
+
+      .card-desc {
+        font-size: 8pt !important;
+        line-height: 1.3 !important;
+        margin-bottom: 4pt !important;
+      }
+
+      .topic-list li {
+        font-size: 7.5pt !important;
+        line-height: 1.25 !important;
+      }
+
+      .competencies-container {
+        grid-template-columns: 1fr 1fr 1fr !important;
+        gap: 6pt !important;
+      }
+
+      .competency-group {
+        border: 1px solid #E2E8F0 !important;
+        padding: 5pt 7pt !important;
+      }
+
+      .group-header {
+        font-size: 9pt !important;
+        margin-bottom: 3pt !important;
+        padding-bottom: 2pt !important;
+      }
+
+      .competency-tag {
+        font-size: 7.5pt !important;
+        padding: 1pt 3pt !important;
+      }
+
+      .project-card {
+        border: 1px solid #E2E8F0 !important;
+        padding: 6pt 10pt !important;
+      }
+
+      .project-desc {
+        font-size: 8.5pt !important;
+        margin-bottom: 4pt !important;
+      }
+
+      .project-features li {
+        font-size: 8pt !important;
+      }
+
+      .resume-footer {
+        margin-top: 10pt !important;
+        padding-top: 6pt !important;
+        font-size: 7.5pt !important;
+      }
+
+      .print-url-stamp {
+        display: block !important;
+        font-family: var(--font-mono);
+        font-size: 7.5pt;
+        color: #64748B;
+        margin-top: 4pt;
+      }
+    }
+
+    .print-url-stamp {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SCREEN UTILITY HEADER -->
+  <header class="screen-header-bar screen-only" role="banner">
+    <div class="screen-header-inner">
+      <div class="brand-nav">
+        <a href="/" class="brand-link" id="brand-home-link" title="Presentation Vault Home">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+          </svg>
+          <span>Presentation Vault</span>
+        </a>
+        <span class="brand-badge">Academic Portfolio</span>
+      </div>
+
+      <nav class="nav-actions" aria-label="Resume utilities">
+        <a href="/presentations/" class="btn-utility btn-utility-ghost" id="nav-presentations-link" title="Browse presentation decks">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+            <line x1="8" y1="21" x2="16" y2="21"></line>
+            <line x1="12" y1="17" x2="12" y2="21"></line>
+          </svg>
+          <span>Archive</span>
+        </a>
+
+        <a href="https://github.com/ankitkumar25mh-hue" target="_blank" rel="noopener noreferrer" class="btn-utility btn-utility-ghost" id="nav-github-link" title="View GitHub Profile">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"></path>
+          </svg>
+          <span>GitHub</span>
+        </a>
+
+        <button type="button" class="btn-utility btn-utility-primary" id="btn-print-resume" onclick="window.print()" title="Print resume or export to PDF (Ctrl+P / Cmd+P)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="6 9 6 2 18 2 18 9"></polyline>
+            <path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"></path>
+            <rect x="6" y="14" width="12" height="8"></rect>
+          </svg>
+          <span>Print Resume</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- RESUME DOCUMENT CANVAS -->
+  <div class="resume-wrapper">
+    <main class="resume-paper" id="resume-document" role="main">
+      
+      <!-- HEADER / PROFILE BLOCK -->
+      <header class="resume-header">
+        <div class="header-top">
+          <div class="name-title-group">
+            <h1 class="candidate-name" id="candidate-name">Ankit Kumar</h1>
+            <div class="candidate-subtitle">
+              <span>MBA Student  -  Finance</span>
+              <span class="separator"> - </span>
+              <span>Academic Presentation Portfolio</span>
+            </div>
+          </div>
+
+          <div class="contact-grid">
+            <div class="contact-item">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"></path>
+              </svg>
+              <span>GitHub: <a href="https://github.com/ankitkumar25mh-hue" target="_blank" rel="noopener noreferrer" id="header-github-link">ankitkumar25mh-hue</a></span>
+            </div>
+
+            <div class="contact-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"></path>
+              </svg>
+              <span>Portfolio: <a href="https://ankit19.me" target="_blank" rel="noopener noreferrer" id="header-portfolio-link">ankit19.me</a></span>
+            </div>
+
+            <div class="contact-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 19.5A2.5 2.5 0 016.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"></path>
+              </svg>
+              <span>Vault: <a href="https://ankit19.me/presentations/" id="header-vault-link">ankit19.me/presentations</a></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="header-meta-bar">
+          <div class="meta-pills">
+            <span class="meta-pill accent">MBA Candidate</span>
+            <span class="meta-pill">Corporate Finance</span>
+            <span class="meta-pill">Investment Valuation</span>
+            <span class="meta-pill">FinTech & Payments</span>
+            <span class="meta-pill">Macroeconomics</span>
+          </div>
+          <div>Presentation Archive: 6 Curated Course Modules</div>
+        </div>
+      </header>
+
+      <!-- SECTION: ACADEMIC PROFILE -->
+      <section class="resume-section" id="section-profile" aria-labelledby="heading-profile">
+        <h2 class="section-title" id="heading-profile">
+          <span class="section-icon" aria-hidden="true">&#8226;</span>
+          <span>Academic Profile</span>
+        </h2>
+        <div class="profile-card"><p><strong>MBA Finance student</strong> interested in corporate finance, investment analysis and financial technology.</p><p>This portfolio brings together my academic presentations on financial management, valuation, digital payments, robo advisory and economic growth. Explore the linked presentations to see the work.</p></div>
+      </section>
+
+      <!-- SECTION: EDUCATION -->
+      <section class="resume-section" id="section-education" aria-labelledby="heading-education">
+        <h2 class="section-title" id="heading-education">
+          <span class="section-icon" aria-hidden="true">&#8226;</span>
+          <span>Education</span>
+        </h2>
+        <div class="edu-entry">
+          <div class="edu-header">
+            <div class="edu-degree">Master of Business Administration (MBA)</div>
+            <span class="edu-status">Current Student / Candidate</span>
+          </div>
+          <div class="edu-specialization">Specialization: Finance</div>
+          <p style="font-size: 13.5px; color: var(--text-secondary); line-height: 1.55;">
+            Academic work is available in the presentation archive below.
+          </p>
+          </div></section>
+
+      <!-- SECTION: ACADEMIC RESEARCH & PRESENTATIONS ARCHIVE -->
+      <section class="resume-section" id="section-presentations" aria-labelledby="heading-presentations">
+        <h2 class="section-title" id="heading-presentations">
+          <span class="section-icon" aria-hidden="true">&#8226;</span>
+          <span>Academic Presentations</span>
+        </h2>
+        <div class="presentations-grid">
+
+          <!-- 1. Corporate Financial Management -->
+          <article class="presentation-card" id="card-financial-management">
+            <div class="card-top">
+              <div class="card-meta-line">
+                <span class="badge-category finance">Finance</span>
+                <span class="card-date">Oct 22, 2025  -  5 Slides</span>
+              </div>
+              <h3 class="card-title">
+                <a href="/presentations/financial-management/">Financial Management</a>
+              </h3>
+              <p class="card-desc">
+                Core principles of corporate financial management including capital budgeting, working capital management, risk assessment, and shareholder value creation strategies.
+              </p>
+              <div class="card-topics">
+                <div class="topics-label">Key Analytical Topics</div>
+                <ul class="topic-list">
+                  <li>Shareholder Wealth Maximization vs. Profit Maximization</li>
+                  <li>3-Statement Analysis & DuPont ROE Decomposition</li>
+                  <li>Capital Budgeting Decisions: NPV, IRR, Payback, Profitability Index</li>
+                  <li>Working Capital Management & Cash Conversion Cycle</li>
+                </ul>
+              </div>
+            </div>
+            <div class="card-actions screen-only">
+              <a href="/presentations/financial-management/" class="btn-card btn-card-outline" title="View details and slide outline">Overview</a>
+              <a href="/presentations/financial-management/present/" class="btn-card btn-card-filled" title="Launch fullscreen presentation mode">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+                Present
+              </a>
+            </div>
+          </article>
+
+          <!-- 2. Investment Analysis -->
+          <article class="presentation-card" id="card-investment-analysis">
+            <div class="card-top">
+              <div class="card-meta-line">
+                <span class="badge-category investment">Investment</span>
+                <span class="card-date">Nov 28, 2025  -  5 Slides</span>
+              </div>
+              <h3 class="card-title">
+                <a href="/presentations/investment-analysis/">Investment Analysis & Valuation</a>
+              </h3>
+              <p class="card-desc">
+                Fundamental and technical approaches to security analysis, valuation methodologies, portfolio theory, and risk management for equity and fixed income investments.
+              </p>
+              <div class="card-topics">
+                <div class="topics-label">Key Analytical Topics</div>
+                <ul class="topic-list">
+                  <li>Top-Down Fundamental Analysis: Macro  -  Industry  -  Company</li>
+                  <li>Technical Analysis: Price action, Dow Theory, RSI, MACD patterns</li>
+                  <li>Valuation Methods: DCF, Relative Multiples (P/E, EV/EBITDA, P/B), DDM</li>
+                  <li>Portfolio Construction: Strategic vs. tactical asset allocation</li>
+                </ul>
+              </div>
+            </div>
+            <div class="card-actions screen-only">
+              <a href="/presentations/investment-analysis/" class="btn-card btn-card-outline" title="View details and slide outline">Overview</a>
+              <a href="/presentations/investment-analysis/present/" class="btn-card btn-card-filled" title="Launch fullscreen presentation mode">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+                Present
+              </a>
+            </div>
+          </article>
+
+          <!-- 3. Robo Advisory -->
+          <article class="presentation-card" id="card-robo-advisory">
+            <div class="card-top">
+              <div class="card-meta-line">
+                <span class="badge-category investment">Investment</span>
+                <span class="card-date">Dec 3, 2025  -  5 Slides</span>
+              </div>
+              <h3 class="card-title">
+                <a href="/presentations/robo-advisory/">Robo Advisory: Automated Wealth</a>
+              </h3>
+              <p class="card-desc">
+                Deep dive into automated investment advisory services, algorithmic portfolio management, and the disruption of traditional wealth management ecosystems.
+              </p>
+              <div class="card-topics">
+                <div class="topics-label">Key Analytical Topics</div>
+                <ul class="topic-list">
+                  <li>Client Onboarding, Risk Profiling & Goal-Based Investing</li>
+                  <li>Portfolio Algorithms: Modern Portfolio Theory (MPT) & Mean-Variance</li>
+                  <li>Black-Litterman Model & Monte Carlo simulations for goal forecasting</li>
+                  <li>Automated Portfolio Rebalancing & Tax-Loss Harvesting</li>
+                </ul>
+              </div>
+            </div>
+            <div class="card-actions screen-only">
+              <a href="/presentations/robo-advisory/" class="btn-card btn-card-outline" title="View details and slide outline">Overview</a>
+              <a href="/presentations/robo-advisory/present/" class="btn-card btn-card-filled" title="Launch fullscreen presentation mode">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+                Present
+              </a>
+            </div>
+          </article>
+
+          <!-- 4. Digital Payments -->
+          <article class="presentation-card" id="card-digital-payments">
+            <div class="card-top">
+              <div class="card-meta-line">
+                <span class="badge-category fintech">FinTech</span>
+                <span class="card-date">Jan 10, 2026  -  5 Slides</span>
+              </div>
+              <h3 class="card-title">
+                <a href="/presentations/digital-payments/">Digital Payments Revolution</a>
+              </h3>
+              <p class="card-desc">
+                Evolution of payment systems from cash to digital, covering clearing rails, mobile wallets, contactless protocols, cryptocurrencies, and future money movement.
+              </p>
+              <div class="card-topics">
+                <div class="topics-label">Key Analytical Topics</div>
+                <ul class="topic-list">
+                  <li>Payment Rails: ACH, Wire (SWIFT), Card Networks, RTP, FedNow, UPI</li>
+                  <li>Mobile Wallets & Contactless: NFC, QR codes, Tokenization security</li>
+                  <li>Cryptocurrency & Stablecoins: Bitcoin, USDC/USDT, CBDCs, DeFi</li>
+                  <li>Emerging Trends: Invisible payments, Biometrics, Smart contracts</li>
+                </ul>
+              </div>
+            </div>
+            <div class="card-actions screen-only">
+              <a href="/presentations/digital-payments/" class="btn-card btn-card-outline" title="View details and slide outline">Overview</a>
+              <a href="/presentations/digital-payments/present/" class="btn-card btn-card-filled" title="Launch fullscreen presentation mode">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+                Present
+              </a>
+            </div>
+          </article>
+
+          <!-- 5. FinTech Fundamentals -->
+          <article class="presentation-card" id="card-fintech-fundamentals">
+            <div class="card-top">
+              <div class="card-meta-line">
+                <span class="badge-category fintech">FinTech</span>
+                <span class="card-date">Nov 15, 2025  -  5 Slides</span>
+              </div>
+              <h3 class="card-title">
+                <a href="/presentations/fintech-fundamentals/">FinTech Fundamentals</a>
+              </h3>
+              <p class="card-desc">
+                Introductory overview of financial technology, exploring core paradigms, major market segments, and the technological transformation of traditional financial services.
+              </p>
+              <div class="card-topics">
+                <div class="topics-label">Key Analytical Topics</div>
+                <ul class="topic-list">
+                  <li>FinTech Evolution: From Credit Cards (1950s) to Neobanks & DeFi</li>
+                  <li>Core Verticals: Payments, Lending, WealthTech, InsurTech, RegTech</li>
+                  <li>Open Banking Infrastructure & Financial API Ecosystems</li>
+                  <li>AI/ML in Financial Services & Sustainable FinTech</li>
+                </ul>
+              </div>
+            </div>
+            <div class="card-actions screen-only">
+              <a href="/presentations/fintech-fundamentals/" class="btn-card btn-card-outline" title="View details and slide outline">Overview</a>
+              <a href="/presentations/fintech-fundamentals/present/" class="btn-card btn-card-filled" title="Launch fullscreen presentation mode">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+                Present
+              </a>
+            </div>
+          </article>
+
+          <!-- 6. GDP & Economic Growth -->
+          <article class="presentation-card" id="card-gdp-economic-growth">
+            <div class="card-top">
+              <div class="card-meta-line">
+                <span class="badge-category economics">Economics</span>
+                <span class="card-date">Sep 18, 2025  -  5 Slides</span>
+              </div>
+              <h3 class="card-title">
+                <a href="/presentations/gdp-economic-growth/">GDP & Economic Growth</a>
+              </h3>
+              <p class="card-desc">
+                Comprehensive macroeconomic analysis of Gross Domestic Product as a measure of economic output, growth determinants, and policy levers for sustainable expansion.
+              </p>
+              <div class="card-topics">
+                <div class="topics-label">Key Analytical Topics</div>
+                <ul class="topic-list">
+                  <li>Three Accounting Approaches: Expenditure (C+I+G+NX), Income, Output</li>
+                  <li>Real vs. Nominal GDP, Chain-Weighted Indices & GDP Deflator</li>
+                  <li>Growth Determinants: Physical/Human Capital, Total Factor Productivity</li>
+                  <li>Fiscal & Monetary Policy Levers, Supply-Side Policy & Inclusive Growth</li>
+                </ul>
+              </div>
+            </div>
+            <div class="card-actions screen-only">
+              <a href="/presentations/gdp-economic-growth/" class="btn-card btn-card-outline" title="View details and slide outline">Overview</a>
+              <a href="/presentations/gdp-economic-growth/present/" class="btn-card btn-card-filled" title="Launch fullscreen presentation mode">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+                Present
+              </a>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- SECTION: ACADEMIC COMPETENCIES & METHODOLOGIES -->
+      <section class="resume-section" id="section-competencies" aria-labelledby="heading-competencies">
+        <h2 class="section-title" id="heading-competencies">
+          <span class="section-icon" aria-hidden="true">&#8226;</span>
+          <span>Topics Covered in Academic Presentations</span>
+        </h2>
+        <div class="competencies-container">
+          
+          <div class="competency-group">
+            <div class="group-header">
+              <span class="group-dot"></span>
+              <span>Financial Modeling & Valuation</span>
+            </div>
+            <div class="pill-cloud">
+              <span class="competency-tag">Discounted Cash Flow (DCF)</span>
+              <span class="competency-tag">Relative Valuation (P/E, EV/EBITDA, P/B)</span>
+              <span class="competency-tag">Dividend Discount Model (DDM)</span>
+              <span class="competency-tag">Net Present Value (NPV)</span>
+              <span class="competency-tag">Internal Rate of Return (IRR)</span>
+              <span class="competency-tag">Capital Budgeting</span>
+            </div>
+          </div>
+
+          <div class="competency-group">
+            <div class="group-header">
+              <span class="group-dot"></span>
+              <span>Financial Statement Analysis</span>
+            </div>
+            <div class="pill-cloud">
+              <span class="competency-tag">DuPont ROE Decomposition</span>
+              <span class="competency-tag">Liquidity & Solvency Ratios</span>
+              <span class="competency-tag">Working Capital Management</span>
+              <span class="competency-tag">Cash Conversion Cycle</span>
+              <span class="competency-tag">Cash Flow Statement Analysis</span>
+              <span class="competency-tag">Operating Cycle Modeling</span>
+            </div>
+          </div>
+
+          <div class="competency-group">
+            <div class="group-header">
+              <span class="group-dot"></span>
+              <span>Portfolio Theory & WealthTech</span>
+            </div>
+            <div class="pill-cloud">
+              <span class="competency-tag">Modern Portfolio Theory (MPT)</span>
+              <span class="competency-tag">Mean-Variance Optimization</span>
+              <span class="competency-tag">Black-Litterman Model</span>
+              <span class="competency-tag">Monte Carlo Simulations</span>
+              <span class="competency-tag">Automated Portfolio Rebalancing</span>
+              <span class="competency-tag">Tax-Loss Harvesting</span>
+            </div>
+          </div>
+
+          <div class="competency-group">
+            <div class="group-header">
+              <span class="group-dot"></span>
+              <span>FinTech & Payment Architecture</span>
+            </div>
+            <div class="pill-cloud">
+              <span class="competency-tag">Payment Rails (ACH, Wire, SWIFT)</span>
+              <span class="competency-tag">Real-Time Payments (RTP, FedNow, UPI)</span>
+              <span class="competency-tag">Mobile Wallets & Tokenization</span>
+              <span class="competency-tag">Cryptocurrency & Stablecoins</span>
+              <span class="competency-tag">Central Bank Digital Currencies (CBDCs)</span>
+              <span class="competency-tag">Open Banking & Financial APIs</span>
+            </div>
+          </div>
+
+          <div class="competency-group">
+            <div class="group-header">
+              <span class="group-dot"></span>
+              <span>Macroeconomics & Policy</span>
+            </div>
+            <div class="pill-cloud">
+              <span class="competency-tag">GDP Measurement (Expenditure/Income/Output)</span>
+              <span class="competency-tag">Real vs. Nominal Indices</span>
+              <span class="competency-tag">GDP Deflator Analysis</span>
+              <span class="competency-tag">Fiscal & Monetary Policy Levers</span>
+              <span class="competency-tag">Total Factor Productivity (TFP)</span>
+              <span class="competency-tag">Economic Growth Determinants</span>
+            </div>
+          </div>
+
+          
+
+        </div>
+      </section>
+
+      <!-- SECTION: ACADEMIC PROJECT HIGHLIGHT -->
+      <section class="resume-section" id="section-project" aria-labelledby="heading-project">
+        <h2 class="section-title" id="heading-project">
+          <span class="section-icon" aria-hidden="true">&#8226;</span>
+          <span>Academic Project Highlight</span>
+        </h2>
+        <div class="project-card">
+          <div class="project-header">
+            <div class="project-title">Presentation Vault  -  Personal Academic Presentation Archive</div>
+            <span class="project-badge">ankit19.me</span>
+          </div>
+          <p class="project-desc">
+            A browser-based archive of academic presentations, with slide navigation and a layout designed for classroom displays.
+          </p>
+          <ul class="project-features">
+            <li>Zero-Login Architecture: Direct browser presentation access without requiring Google Drive or external account logins on shared classroom hardware.</li>
+            <li>Smartboard Optimization: High-contrast responsive typography, touch targets, and full keyboard-driven navigation (Arrow keys, Space, Fullscreen).</li>
+            <li>Subject Categorization: Instant categorization across FinTech, Corporate Finance, Investment Analysis, and Macroeconomics.</li>
+            <li>Open Academic Distribution: Hosted on custom domain <code>ankit19.me</code> via GitHub Pages with automated static delivery.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+      <footer class="resume-footer" role="contentinfo">
+        <div class="footer-left">
+          <span>Ankit Kumar  -  MBA Finance Student</span>
+          <span> - </span>
+          <span>Published on <a href="https://ankit19.me" target="_blank" rel="noopener noreferrer">ankit19.me</a></span>
+        </div>
+        <div class="footer-links screen-only">
+          <a href="/">Home</a>
+          <a href="/presentations/">Presentations Archive</a>
+          <a href="/about/">About Vault</a>
+          <a href="https://github.com/ankitkumar25mh-hue" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </div>
+        <div class="print-url-stamp">
+          Portfolio: https://ankit19.me/resume/  -  GitHub: https://github.com/ankitkumar25mh-hue
+        </div>
+      </footer>
+
+    </main>
+  </div>
+
+</body>
+</html>
