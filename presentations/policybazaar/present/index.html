@@ -1,0 +1,2704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Policybazaar: How Fintech Is Embedded in Digital Insurance | Academic Case Study</title>
+  <meta name="description" content="An academic case study analyzing how fintech is embedded across Policybazaar's digital insurance journey, examining customer touchpoints, the platform-versus-insurer boundary, architectural layers, and risk governance.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-page: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-surface-alt: #f1f5f9;
+      --bg-elevated: #ffffff;
+      --border-subtle: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-light: #64748b;
+      --navy-900: #0a192f;
+      --navy-800: #0f2546;
+      --navy-700: #1a365d;
+      --brand-teal: #0d9488;
+      --brand-teal-light: #ccfbf1;
+      --brand-teal-dark: #0f766e;
+      --brand-blue: #0284c7;
+      --brand-blue-light: #e0f2fe;
+      --brand-amber: #d97706;
+      --brand-amber-light: #fef3c7;
+      --brand-rose: #e11d48;
+      --brand-rose-light: #ffe4e6;
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+      --shadow-md: 0 4px 16px -2px rgba(15, 23, 42, 0.08), 0 2px 6px -2px rgba(15, 23, 42, 0.04);
+      --shadow-lg: 0 12px 32px -4px rgba(15, 23, 42, 0.12), 0 4px 12px -2px rgba(15, 23, 42, 0.06);
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --radius-full: 9999px;
+      --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    [data-theme="dark"] {
+      --bg-page: #060e1a;
+      --bg-surface: #0c182b;
+      --bg-surface-alt: #132238;
+      --bg-elevated: #162942;
+      --border-subtle: #1e334f;
+      --border-strong: #2a476c;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-light: #64748b;
+      --brand-teal-light: rgba(13, 148, 136, 0.2);
+      --brand-blue-light: rgba(2, 132, 199, 0.2);
+      --brand-amber-light: rgba(217, 119, 6, 0.2);
+      --brand-rose-light: rgba(225, 29, 72, 0.2);
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+      --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.5);
+      --shadow-lg: 0 12px 36px rgba(0, 0, 0, 0.6);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: var(--text-main);
+      background-color: var(--bg-page);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    h1, h2, h3, h4, .brand-font {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      letter-spacing: -0.025em;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    a { color: var(--brand-blue); text-decoration: none; transition: var(--transition); }
+    a:hover { color: var(--brand-teal); text-decoration: underline; }
+
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    .container { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+
+    /* Top Utility Bar */
+    .top-bar {
+      background: var(--navy-900);
+      color: #94a3b8;
+      font-size: 0.8125rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 8px 0;
+    }
+    .top-bar .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .top-bar-left { display: flex; align-items: center; gap: 14px; }
+    .top-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      background: rgba(13, 148, 136, 0.2);
+      color: #5eead4;
+      font-weight: 600;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .top-bar-controls { display: flex; align-items: center; gap: 10px; }
+    .btn-ctrl {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #e2e8f0;
+      padding: 4px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.775rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+    .btn-ctrl:hover { background: rgba(255, 255, 255, 0.18); color: #fff; }
+    .btn-ctrl.active {
+      background: var(--brand-teal);
+      border-color: var(--brand-teal);
+      color: #fff;
+    }
+
+    /* Executive Hero Header */
+    header.hero {
+      background: linear-gradient(135deg, var(--navy-900) 0%, var(--navy-800) 60%, #0d4a68 100%);
+      color: #ffffff;
+      padding: 64px 0 56px;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    header.hero::before {
+      content: "";
+      position: absolute;
+      top: -120px;
+      right: -80px;
+      width: 480px;
+      height: 480px;
+      background: radial-gradient(circle, rgba(13, 148, 136, 0.2) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #5eead4;
+      font-size: 0.8125rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 4.2vw, 3.4rem);
+      line-height: 1.12;
+      color: #ffffff;
+      margin-bottom: 18px;
+      max-width: 980px;
+    }
+    .hero-subtitle {
+      font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+      color: #cbd5e1;
+      max-width: 820px;
+      font-weight: 400;
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+    .meta-tag {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: var(--radius-full);
+      padding: 6px 14px;
+      font-size: 0.8125rem;
+      color: #e2e8f0;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .meta-tag strong { color: #5eead4; font-weight: 600; }
+
+    /* Sticky Navigation Bar */
+    nav.main-nav {
+      position: sticky;
+      top: 0;
+      z-index: 99;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+    nav.main-nav .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .nav-links {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 10px 0;
+      scrollbar-width: none;
+    }
+    .nav-links::-webkit-scrollbar { display: none; }
+    .nav-link {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: var(--radius-md);
+      white-space: nowrap;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-link:hover, .nav-link.active {
+      color: var(--text-main);
+      background: var(--bg-surface-alt);
+      text-decoration: none;
+    }
+    .nav-right-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .mode-switch-btn {
+      background: var(--bg-surface-alt);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 6px 14px;
+      border-radius: var(--radius-md);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+    }
+    .mode-switch-btn:hover {
+      background: var(--border-subtle);
+      border-color: var(--border-strong);
+    }
+
+    /* Reading Progress Bar */
+    .reading-progress-track {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: transparent;
+    }
+    .reading-progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--brand-teal), var(--brand-blue));
+      transition: width 0.1s ease;
+    }
+
+    /* Main Content Sections */
+    main { padding: 48px 0 96px; }
+    section.doc-section {
+      margin-bottom: 72px;
+      scroll-margin-top: 80px;
+    }
+    .section-header {
+      margin-bottom: 28px;
+    }
+    .section-kicker {
+      font-size: 0.8125rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--brand-teal);
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .section-title {
+      font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+      line-height: 1.2;
+      color: var(--text-main);
+      margin-bottom: 12px;
+    }
+    .section-lead {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 900px;
+      line-height: 1.6;
+    }
+
+    /* Card System */
+    .card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+    .card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: var(--border-strong);
+    }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+
+    /* Executive Callouts */
+    .callout {
+      border-left: 4px solid var(--brand-teal);
+      background: var(--brand-teal-light);
+      padding: 20px 24px;
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      margin: 20px 0;
+    }
+    .callout-amber {
+      border-left-color: var(--brand-amber);
+      background: var(--brand-amber-light);
+    }
+    .callout-blue {
+      border-left-color: var(--brand-blue);
+      background: var(--brand-blue-light);
+    }
+    .callout h4 {
+      font-size: 1rem;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .callout p { font-size: 0.925rem; color: var(--text-main); line-height: 1.55; }
+
+    /* Core Finding Highlight Box */
+    .core-finding-box {
+      background: linear-gradient(135deg, rgba(13, 148, 136, 0.08) 0%, rgba(2, 132, 199, 0.08) 100%);
+      border: 1px solid rgba(13, 148, 136, 0.3);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      margin-bottom: 32px;
+      position: relative;
+    }
+    .core-finding-badge {
+      display: inline-block;
+      background: var(--brand-teal);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      margin-bottom: 14px;
+    }
+    .core-finding-box h3 {
+      font-size: 1.35rem;
+      line-height: 1.35;
+      margin-bottom: 14px;
+      color: var(--text-main);
+    }
+    .core-finding-box p {
+      font-size: 1rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* Research Questions Grid */
+    .rq-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: var(--transition);
+    }
+    .rq-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--brand-teal);
+      margin-bottom: 10px;
+    }
+    .rq-card h4 {
+      font-size: 1rem;
+      line-height: 1.4;
+      margin-bottom: 10px;
+    }
+    .rq-card p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    /* Process Flowchart Visualizer */
+    .journey-map-container {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 32px 24px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 32px;
+    }
+    .journey-stages-nav {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+      position: relative;
+      margin-bottom: 28px;
+    }
+    .journey-step-btn {
+      background: var(--bg-surface-alt);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 16px 12px;
+      text-align: left;
+      cursor: pointer;
+      position: relative;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .journey-step-btn:hover {
+      border-color: var(--brand-teal);
+      background: var(--bg-surface);
+      transform: translateY(-2px);
+    }
+    .journey-step-btn.active {
+      background: var(--bg-surface);
+      border-color: var(--brand-teal);
+      box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.2), var(--shadow-md);
+    }
+    .step-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--brand-teal);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .journey-step-btn h4 {
+      font-size: 0.925rem;
+      line-height: 1.25;
+      color: var(--text-main);
+    }
+    .journey-step-btn p {
+      font-size: 0.775rem;
+      color: var(--text-light);
+      line-height: 1.35;
+    }
+
+    /* SVG Connector Flow Diagram */
+    .flow-connector-diagram {
+      background: var(--bg-surface-alt);
+      border-radius: var(--radius-md);
+      padding: 24px 16px;
+      margin-bottom: 28px;
+      border: 1px dashed var(--border-strong);
+      overflow-x: auto;
+    }
+    .svg-flow-wrapper { min-width: 820px; }
+
+    /* Interactive Stage Inspector Panel */
+    .stage-inspector {
+      background: linear-gradient(to right, var(--bg-surface), var(--bg-surface-alt));
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 28px;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+    .inspector-title-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .inspector-stage-num {
+      background: var(--brand-teal);
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+    }
+    .inspector-stage-title { font-size: 1.35rem; }
+    .inspector-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+      line-height: 1.6;
+    }
+    .inspector-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    .inspector-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+    }
+    .inspector-box-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--text-light);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .inspector-box-val {
+      font-size: 0.885rem;
+      color: var(--text-main);
+      font-weight: 500;
+      line-height: 1.45;
+    }
+
+    /* Comparison Table: Platform vs Insurer */
+    .boundary-comparison-container {
+      margin-top: 28px;
+      background: var(--bg-surface);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    .comparison-table th {
+      background: var(--bg-surface-alt);
+      padding: 18px 20px;
+      font-size: 0.825rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      border-bottom: 2px solid var(--border-subtle);
+    }
+    .comparison-table td {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 0.925rem;
+      vertical-align: top;
+      line-height: 1.6;
+    }
+    .comparison-table tr:last-child td { border-bottom: none; }
+    .comparison-table tr:hover td { background: rgba(13, 148, 136, 0.03); }
+    .col-stage { width: 18%; font-weight: 600; color: var(--text-main); }
+    .col-platform { width: 32%; }
+    .col-insurer { width: 32%; }
+    .col-authority { width: 18%; }
+    .tag-authority {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .tag-insurer { background: var(--brand-amber-light); color: var(--brand-amber); }
+    .tag-platform { background: var(--brand-blue-light); color: var(--brand-blue); }
+    .tag-customer { background: var(--brand-teal-light); color: var(--brand-teal-dark); }
+    .tag-joint { background: var(--bg-surface-alt); color: var(--text-muted); border: 1px solid var(--border-strong); }
+
+    /* 5 Fintech Layers Architecture */
+    .layers-container {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 24px;
+    }
+    .layer-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 22px 26px;
+      display: grid;
+      grid-template-columns: 240px 1fr 1fr;
+      gap: 24px;
+      align-items: center;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .layer-card:hover {
+      border-color: var(--brand-teal);
+      transform: translateX(4px);
+      box-shadow: var(--shadow-md);
+    }
+    .layer-card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--brand-teal);
+    }
+    .layer-card:nth-child(2)::before { background: var(--brand-blue); }
+    .layer-card:nth-child(3)::before { background: var(--brand-amber); }
+    .layer-card:nth-child(4)::before { background: #8b5cf6; }
+    .layer-card:nth-child(5)::before { background: #ec4899; }
+    .layer-meta { display: flex; flex-direction: column; gap: 4px; }
+    .layer-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--brand-teal);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .layer-name { font-size: 1.15rem; font-weight: 700; }
+    .layer-core p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.55; }
+    .layer-controls {
+      background: var(--bg-surface-alt);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      font-size: 0.825rem;
+      color: var(--text-muted);
+    }
+    .layer-controls strong { display: block; color: var(--text-main); margin-bottom: 2px; }
+
+    /* Claims Deep Dive (Cashless vs Reimbursement) */
+    .claims-dual-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 24px;
+    }
+    .claim-path-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 26px;
+      position: relative;
+    }
+    .claim-path-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      margin-bottom: 14px;
+    }
+    .badge-cashless { background: var(--brand-teal-light); color: var(--brand-teal-dark); }
+    .badge-reimburse { background: var(--brand-blue-light); color: var(--brand-blue); }
+    .claim-steps-list {
+      list-style: none;
+      margin-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .claim-step-item {
+      display: flex;
+      gap: 12px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .claim-step-bullet {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--bg-surface-alt);
+      border: 1px solid var(--border-strong);
+      color: var(--text-main);
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* Risk & Controls Matrix */
+    .risk-filter-bar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+      align-items: center;
+    }
+    .filter-btn {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--brand-teal);
+      border-color: var(--brand-teal);
+      color: #fff;
+    }
+    .risk-search-input {
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
+      color: var(--text-main);
+      font-size: 0.8125rem;
+      margin-left: auto;
+      outline: none;
+      min-width: 220px;
+      transition: var(--transition);
+    }
+    .risk-search-input:focus { border-color: var(--brand-teal); }
+
+    .risk-table-wrap {
+      background: var(--bg-surface);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      overflow-x: auto;
+      box-shadow: var(--shadow-sm);
+    }
+    .risk-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    .risk-table th {
+      background: var(--bg-surface-alt);
+      padding: 16px 20px;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      border-bottom: 2px solid var(--border-subtle);
+    }
+    .risk-table td {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 0.9rem;
+      line-height: 1.55;
+      vertical-align: top;
+    }
+    .risk-table tr:last-child td { border-bottom: none; }
+    .risk-pill {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .risk-pill-high { background: var(--brand-rose-light); color: var(--brand-rose); }
+    .risk-pill-med { background: var(--brand-amber-light); color: var(--brand-amber); }
+    .risk-pill-reg { background: var(--brand-blue-light); color: var(--brand-blue); }
+
+    /* Discussion Questions Accordion */
+    .qa-container {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 24px;
+    }
+    .qa-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: var(--transition);
+    }
+    .qa-header {
+      padding: 20px 24px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .qa-header:hover { background: var(--bg-surface-alt); }
+    .qa-header-left { display: flex; align-items: center; gap: 14px; }
+    .qa-num-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--brand-teal);
+      background: var(--bg-surface-alt);
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+    }
+    .qa-header h4 { font-size: 1.05rem; }
+    .qa-icon {
+      font-size: 1.2rem;
+      color: var(--text-light);
+      transition: transform 0.2s ease;
+    }
+    .qa-card.open .qa-icon { transform: rotate(180deg); color: var(--brand-teal); }
+    .qa-body {
+      padding: 0 24px 22px 24px;
+      display: none;
+      border-top: 1px dashed var(--border-subtle);
+      margin-top: 6px;
+      padding-top: 18px;
+    }
+    .qa-card.open .qa-body { display: block; }
+    .qa-body p { font-size: 0.925rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 12px; }
+    .qa-implication-tag {
+      display: inline-block;
+      background: var(--brand-teal-light);
+      color: var(--brand-teal-dark);
+      font-size: 0.775rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: var(--radius-full);
+      margin-right: 6px;
+    }
+
+    /* Primary Sources & References Grid */
+    .sources-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+      margin-top: 24px;
+    }
+    .source-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: var(--transition);
+    }
+    .source-card:hover {
+      border-color: var(--brand-teal);
+      box-shadow: var(--shadow-sm);
+      transform: translateY(-2px);
+    }
+    .source-ref-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--brand-teal);
+      margin-bottom: 8px;
+      display: inline-block;
+    }
+    .source-card h4 {
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+    }
+    .source-card p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 16px;
+      flex-grow: 1;
+    }
+    .source-link-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.825rem;
+      font-weight: 600;
+      color: var(--brand-teal);
+    }
+
+    /* Citation Badges */
+    .cite-ref {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--brand-teal);
+      background: var(--brand-teal-light);
+      padding: 1px 5px;
+      border-radius: 4px;
+      vertical-align: super;
+      text-decoration: none;
+      margin-left: 2px;
+    }
+    .cite-ref:hover {
+      background: var(--brand-teal);
+      color: #fff;
+      text-decoration: none;
+    }
+    .analysis-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: rgba(100, 116, 139, 0.15);
+      color: var(--text-light);
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+
+    /* Presentation Slide Deck Mode */
+    #presentation-mode-container {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: var(--navy-900);
+      color: #fff;
+      z-index: 9999;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    #presentation-mode-container.active { display: flex; }
+
+    .deck-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 28px;
+      background: rgba(10, 25, 47, 0.95);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .deck-title-mini {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .deck-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .deck-counter {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: #94a3b8;
+    }
+    .deck-stage-area {
+      flex: 1;
+      position: relative;
+      overflow-y: auto;
+      padding: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .slide-wrapper {
+      max-width: 1100px;
+      width: 100%;
+      background: var(--navy-800);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-lg);
+      padding: 48px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      position: relative;
+      animation: fadeInSlide 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes fadeInSlide {
+      from { opacity: 0; transform: translateY(12px) scale(0.99); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .slide-kicker {
+      font-family: 'JetBrains Mono', monospace;
+      color: #5eead4;
+      font-size: 0.825rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 12px;
+    }
+    .slide-title {
+      font-size: 2.2rem;
+      color: #fff;
+      margin-bottom: 18px;
+      line-height: 1.2;
+    }
+    .slide-body {
+      color: #cbd5e1;
+      font-size: 1.05rem;
+      line-height: 1.65;
+    }
+    .slide-body .card {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.12);
+      color: #e2e8f0;
+    }
+    .slide-body h4 { color: #fff; }
+
+    /* Deck Bottom Bar */
+    .deck-bottom-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 28px;
+      background: rgba(10, 25, 47, 0.95);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .deck-nav-buttons {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .deck-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 8px 18px;
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+    }
+    .deck-btn:hover:not(:disabled) { background: var(--brand-teal); border-color: var(--brand-teal); }
+    .deck-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .deck-dots-indicator {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .deck-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.25);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .deck-dot.active {
+      background: var(--brand-teal);
+      transform: scale(1.3);
+    }
+
+    /* Speaker Notes Drawer */
+    .deck-notes-drawer {
+      display: none;
+      background: #071526;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 16px 28px;
+      color: #94a3b8;
+      font-size: 0.875rem;
+    }
+    .deck-notes-drawer.open { display: block; }
+    .deck-notes-drawer strong { color: #5eead4; margin-right: 8px; }
+
+    /* Footer */
+    footer.academic-footer {
+      background: var(--navy-900);
+      color: #94a3b8;
+      padding: 56px 0 40px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.875rem;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 36px;
+      margin-bottom: 40px;
+    }
+    .footer-brand h3 { color: #fff; font-size: 1.15rem; margin-bottom: 12px; }
+    .footer-brand p { color: #64748b; line-height: 1.6; max-width: 480px; }
+    .footer-col h4 {
+      color: #cbd5e1;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 14px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .footer-col a { color: #94a3b8; }
+    .footer-col a:hover { color: #5eead4; }
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 0.8rem;
+      color: #64748b;
+    }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 1024px) {
+      .journey-stages-nav { grid-template-columns: repeat(3, 1fr); }
+      .layer-card { grid-template-columns: 1fr; gap: 14px; }
+      .grid-3 { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .grid-2, .claims-dual-grid, .stage-inspector { grid-template-columns: 1fr; }
+      .journey-stages-nav { grid-template-columns: repeat(2, 1fr); }
+      .nav-links { display: none; }
+      header.hero { padding: 42px 0 36px; }
+      .slide-wrapper { padding: 24px; }
+      .slide-title { font-size: 1.6rem; }
+    }
+
+    /* Print Styles */
+    @media print {
+      .top-bar, nav.main-nav, .journey-step-btn, .risk-filter-bar, .deck-btn, #presentation-mode-container {
+        display: none !important;
+      }
+      body { background: #fff !important; color: #000 !important; font-size: 11pt; }
+      .card, .stage-inspector, .layer-card, .journey-map-container {
+        border: 1px solid #ccc !important;
+        box-shadow: none !important;
+        break-inside: avoid;
+        margin-bottom: 20px;
+      }
+      header.hero { background: none !important; color: #000 !important; padding: 20px 0 !important; border-bottom: 2px solid #000; }
+      header.hero h1 { color: #000 !important; font-size: 22pt; }
+      .hero-subtitle, .hero-kicker, .hero-meta span { color: #333 !important; }
+      .meta-tag { border-color: #999; color: #333 !important; }
+      .reading-progress-track { display: none; }
+      a { color: #000 !important; text-decoration: underline; }
+      .cite-ref { border: 1px solid #999; color: #000; background: none; }
+    }
+  </style>
+</head>
+<body data-theme="light">
+
+  <!-- Top Academic Utility Bar -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="top-bar-left">
+        <a href="/resume/" class="top-back-link" style="color: #cbd5e1; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; font-weight: 600; margin-right: 8px;" title="Return to Ankit's Portfolio">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          ankit19.me
+        </a>
+        <span class="top-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          Academic Case Study
+        </span>
+        <span>Fintech & Insurance Intermediation Research · Indian Market Context</span>
+      </div>
+      <div class="top-bar-controls">
+        <button class="btn-ctrl" id="btn-theme-toggle" title="Toggle dark/light theme">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <span id="theme-text">Dark Mode</span>
+        </button>
+        <button class="btn-ctrl" id="btn-print-doc" title="Print or save as PDF">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+          Print / PDF
+        </button>
+        <button class="btn-ctrl active" id="btn-launch-presentation" title="Open full-screen MBA presentation deck">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          Present Slides (P)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero Header -->
+  <header class="hero">
+    <div class="container">
+      <div class="hero-kicker">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        Fintech Architecture & Intermediary Governance
+      </div>
+      <h1>How Fintech Is Embedded in Policybazaar’s Digital Insurance Journey</h1>
+      <p class="hero-subtitle">
+        An academic case study analyzing how a regulated insurance web aggregator digitizes discovery, multi-carrier quotes, structured risk capture, transaction routing, persistent servicing, and claims coordination—while preserving the statutory boundary where insurers retain exclusive underwriting and claim settlement authority.
+      </p>
+      <div class="hero-meta">
+        <span class="meta-tag"><strong>Entity:</strong> Policybazaar / PB Fintech Ltd.</span>
+        <span class="meta-tag"><strong>Sector:</strong> Insurtech & Digital Intermediation</span>
+        <span class="meta-tag"><strong>Regulator:</strong> IRDAI (Web Aggregator Framework) <a href="#ref-4" class="cite-ref">[4]</a></span>
+        <span class="meta-tag"><strong>Method:</strong> Public Disclosures & Observable Processes <a href="#methodology" class="analysis-tag">Analysis</a></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sticky Main Navigation -->
+  <nav class="main-nav" id="sticky-nav">
+    <div class="container">
+      <div class="nav-links">
+        <a href="#summary" class="nav-link active">Executive Summary</a>
+        <a href="#journey" class="nav-link">Customer Journey</a>
+        <a href="#boundary" class="nav-link">Platform vs. Insurer</a>
+        <a href="#layers" class="nav-link">5 Fintech Layers</a>
+        <a href="#claims" class="nav-link">Claims Architecture</a>
+        <a href="#risks" class="nav-link">Risks & Controls</a>
+        <a href="#questions" class="nav-link">Seminar Questions</a>
+        <a href="#sources" class="nav-link">Sources & Citations</a>
+      </div>
+      <div class="nav-right-actions">
+        <button class="mode-switch-btn" id="btn-toggle-view" title="Toggle presentation slides">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+          Slide View
+        </button>
+      </div>
+    </div>
+    <div class="reading-progress-track">
+      <div class="reading-progress-bar" id="reading-bar"></div>
+    </div>
+  </nav>
+
+  <!-- Main Body Content -->
+  <main class="container">
+
+    <!-- Section 1: Executive Summary & Core Research Questions -->
+    <section id="summary" class="doc-section">
+      <div class="section-header">
+        <div class="section-kicker">Section 01 · Strategic Overview</div>
+        <h2 class="section-title">Executive Summary & Foundational Inquiry</h2>
+        <p class="section-lead">
+          Understanding digital insurance beyond the superficial metaphor of a "digital storefront"—examining how financial technology coordinates information, transactions, and statutory obligations across fragmented institutional actors.
+        </p>
+      </div>
+
+      <!-- Core Finding Highlight Box -->
+      <div class="core-finding-box">
+        <span class="core-finding-badge">Core Academic Finding</span>
+        <h3>Fintech Is Embedded in Workflow Orchestration, Not Simply Payment Processing</h3>
+        <p>
+          Policybazaar embeds fintech by converting the traditionally paper-bound, high-friction insurance distribution lifecycle into an orchestrated digital workflow. Customers enter structured demographic and risk profiles, evaluate algorithmic multi-insurer comparisons, complete online purchase gateways, manage ongoing coverage in a consolidated digital vault, and access claim assistance protocols. 
+          <strong>Critically, the platform layer coordinates search, eligibility intake, and post-sales tracking; the regulated insurance underwriter remains solely responsible for risk assumption, actuarial pricing, and binding claim adjudication <a href="#ref-1" class="cite-ref">[1]</a><a href="#ref-4" class="cite-ref">[4]</a>.</strong>
+        </p>
+      </div>
+
+      <!-- 3 Core Questions Grid -->
+      <div class="grid-3">
+        <div class="rq-card">
+          <div class="rq-num">QUESTION 01</div>
+          <h4>The Customer Journey</h4>
+          <p>How does a consumer navigate smoothly from initial quote generation through multi-carrier evaluation, proposal underwriting hand-off, digital policy custody, and eventual claim assistance?</p>
+        </div>
+        <div class="rq-card">
+          <div class="rq-num">QUESTION 02</div>
+          <h4>The Embedded Fintech Layer</h4>
+          <p>Where does digital financial technology specifically manifest within that customer pathway to compress information asymmetry, eliminate transaction friction, and structure risk data?</p>
+        </div>
+        <div class="rq-card">
+          <div class="rq-num">QUESTION 03</div>
+          <h4>Governance & Risk Boundary</h4>
+          <p>What regulatory, data privacy, and operational hand-off risks arise when an intermediary operates the digital customer interface while a third party carries underwriting liability?</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: End-to-End Customer Journey & Interactive Process Flow -->
+    <section id="journey" class="doc-section">
+      <div class="section-header">
+        <div class="section-kicker">Section 02 · Process Architecture</div>
+        <h2 class="section-title">The Complete Customer Journey & Decision Flow</h2>
+        <p class="section-lead">
+          Mapping the six sequential stages through which policyholders interact with the platform, alongside the continuous data exchange and governance pipelines connecting regulated carriers.
+        </p>
+      </div>
+
+      <div class="journey-map-container">
+        <!-- SVG Architecture Diagram showing Flow and Boundary -->
+        <div class="flow-connector-diagram">
+          <div class="svg-flow-wrapper">
+            <svg viewBox="0 0 860 170" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="gradTeal" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#0d9488" />
+                  <stop offset="100%" stop-color="#0284c7" />
+                </linearGradient>
+                <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 1 L 8 5 L 0 9 z" fill="#0d9488" />
+                </marker>
+                <marker id="arrowDashed" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 1 L 8 5 L 0 9 z" fill="#d97706" />
+                </marker>
+              </defs>
+
+              <!-- Main Journey Flow Nodes -->
+              <!-- Node 1 -->
+              <rect x="10" y="20" width="120" height="54" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
+              <text x="70" y="44" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" font-weight="700" fill="#0f172a" text-anchor="middle">01 · DISCOVER</text>
+              <text x="70" y="60" font-family="'Inter', sans-serif" font-size="9" fill="#64748b" text-anchor="middle">Need Identification</text>
+
+              <line x1="130" y1="47" x2="148" y2="47" stroke="#0d9488" stroke-width="2" marker-end="url(#arrow)" />
+
+              <!-- Node 2 -->
+              <rect x="150" y="20" width="120" height="54" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
+              <text x="210" y="44" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" font-weight="700" fill="#0f172a" text-anchor="middle">02 · COMPARE</text>
+              <text x="210" y="60" font-family="'Inter', sans-serif" font-size="9" fill="#64748b" text-anchor="middle">Digital Marketplace</text>
+
+              <line x1="270" y1="47" x2="288" y2="47" stroke="#0d9488" stroke-width="2" marker-end="url(#arrow)" />
+
+              <!-- Node 3 -->
+              <rect x="290" y="20" width="125" height="54" rx="8" fill="#ffffff" stroke="#0d9488" stroke-width="2" />
+              <text x="352" y="44" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" font-weight="700" fill="#0d9488" text-anchor="middle">03 · INPUT</text>
+              <text x="352" y="60" font-family="'Inter', sans-serif" font-size="9" fill="#64748b" text-anchor="middle">Risk & Profile Data</text>
+
+              <line x1="415" y1="47" x2="433" y2="47" stroke="#0d9488" stroke-width="2" marker-end="url(#arrow)" />
+
+              <!-- Node 4 -->
+              <rect x="435" y="20" width="125" height="54" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
+              <text x="497" y="44" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" font-weight="700" fill="#0f172a" text-anchor="middle">04 · BUY</text>
+              <text x="497" y="60" font-family="'Inter', sans-serif" font-size="9" fill="#64748b" text-anchor="middle">Payment & Issuance</text>
+
+              <line x1="560" y1="47" x2="578" y2="47" stroke="#0d9488" stroke-width="2" marker-end="url(#arrow)" />
+
+              <!-- Node 5 -->
+              <rect x="580" y="20" width="125" height="54" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
+              <text x="642" y="44" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" font-weight="700" fill="#0f172a" text-anchor="middle">05 · SERVICE</text>
+              <text x="642" y="60" font-family="'Inter', sans-serif" font-size="9" fill="#64748b" text-anchor="middle">Account & Renewals</text>
+
+              <line x1="705" y1="47" x2="723" y2="47" stroke="#0d9488" stroke-width="2" marker-end="url(#arrow)" />
+
+              <!-- Node 6 -->
+              <rect x="725" y="20" width="125" height="54" rx="8" fill="#ffffff" stroke="#0284c7" stroke-width="2" />
+              <text x="787" y="44" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" font-weight="700" fill="#0284c7" text-anchor="middle">06 · CLAIM</text>
+              <text x="787" y="60" font-family="'Inter', sans-serif" font-size="9" fill="#64748b" text-anchor="middle">Assistance & Tracking</text>
+
+              <!-- External Entity Side-channels: Insurers & Networks -->
+              <path d="M 352 74 L 352 125 L 435 125" fill="none" stroke="#d97706" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#arrowDashed)" />
+              <text x="360" y="105" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#d97706">data exchange / consent / audit trail</text>
+
+              <!-- Node: Insurers and Regulated Partners -->
+              <rect x="440" y="105" width="200" height="42" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="1.5" />
+              <text x="540" y="125" font-family="'Plus Jakarta Sans', sans-serif" font-size="10" font-weight="700" fill="#92400e" text-anchor="middle">Insurers & Regulated Underwriters</text>
+              <text x="540" y="138" font-family="'Inter', sans-serif" font-size="8" fill="#b45309" text-anchor="middle">Underwriting Decision & Policy Contract</text>
+
+              <path d="M 787 74 L 787 125 L 755 125" fill="none" stroke="#0284c7" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#arrowDashed)" />
+              <text x="780" y="105" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#0284c7" text-anchor="end">final settlement / medical assessment</text>
+
+              <!-- Node: Insurer / Hospital Network -->
+              <rect x="650" y="105" width="100" height="42" rx="6" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5" />
+              <text x="700" y="125" font-family="'Plus Jakarta Sans', sans-serif" font-size="9.5" font-weight="700" fill="#075985" text-anchor="middle">Insurer / TPA</text>
+              <text x="700" y="138" font-family="'Inter', sans-serif" font-size="8" fill="#0369a1" text-anchor="middle">Hospital Network</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Interactive Journey Stage Buttons -->
+        <div class="journey-stages-nav" id="journey-nav">
+          <button class="journey-step-btn active" data-stage="1">
+            <span class="step-badge">Stage 01</span>
+            <h4>Discover</h4>
+            <p>Need identification & category entry</p>
+          </button>
+          <button class="journey-step-btn" data-stage="2">
+            <span class="step-badge">Stage 02</span>
+            <h4>Compare</h4>
+            <p>Multi-insurer pricing & feature matrix</p>
+          </button>
+          <button class="journey-step-btn" data-stage="3">
+            <span class="step-badge">Stage 03</span>
+            <h4>Input</h4>
+            <p>Personal & health risk data intake</p>
+          </button>
+          <button class="journey-step-btn" data-stage="4">
+            <span class="step-badge">Stage 04</span>
+            <h4>Purchase</h4>
+            <p>KYC, proposal & payment gateway</p>
+          </button>
+          <button class="journey-step-btn" data-stage="5">
+            <span class="step-badge">Stage 05</span>
+            <h4>Service</h4>
+            <p>Account vault, endorsements & renewal</p>
+          </button>
+          <button class="journey-step-btn" data-stage="6">
+            <span class="step-badge">Stage 06</span>
+            <h4>Claim</h4>
+            <p>Filing assistance & status tracking</p>
+          </button>
+        </div>
+
+        <!-- Dynamic Stage Inspector Display Area -->
+        <div class="stage-inspector" id="stage-inspector">
+          <div>
+            <div class="inspector-title-area">
+              <span class="inspector-stage-num" id="insp-num">Stage 01</span>
+              <h3 class="inspector-stage-title" id="insp-title">Discover: Need Identification & Category Selection</h3>
+            </div>
+            <p class="inspector-desc" id="insp-desc">
+              The customer initiates the insurance journey by identifying a personal, family, or asset protection need (e.g., term life, health, motor, travel). The platform provides categorized landing modules that capture high-level intent without immediately demanding sensitive medical declarations.
+            </p>
+            <div class="callout callout-blue" style="margin: 0;">
+              <h4>Academic Analysis: Friction Compression</h4>
+              <p id="insp-analysis">
+                By presenting standardized product classifications, the platform reduces cognitive load and allows initial price discovery without locking the consumer into an offline agent relationship <a href="#ref-1" class="cite-ref">[1]</a>.
+              </p>
+            </div>
+          </div>
+
+          <div class="inspector-grid">
+            <div class="inspector-box">
+              <div class="inspector-box-label">Observable Process Touchpoint</div>
+              <div class="inspector-box-val" id="insp-observable">Category entry (health, life, car), age, city selection, and baseline coverage requirement inputs.</div>
+            </div>
+            <div class="inspector-box">
+              <div class="inspector-box-label">Embedded Fintech Mechanism</div>
+              <div class="inspector-box-val" id="insp-fintech">Intent classification algorithms, responsive dynamic UX, initial actuarial proxy filtering.</div>
+            </div>
+            <div class="inspector-box">
+              <div class="inspector-box-label">Decision Authority Boundary</div>
+              <div class="inspector-box-val" id="insp-authority">Customer chooses what categories to explore; Insurers define available base product catalog.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: The Critical Boundary: Platform Intermediary vs Underwriting Insurer -->
+    <section id="boundary" class="doc-section">
+      <div class="section-header">
+        <div class="section-kicker">Section 03 · Institutional Demarcation</div>
+        <h2 class="section-title">The Statutory Boundary: Intermediary vs. Underwriter</h2>
+        <p class="section-lead">
+          A critical distinction in insurance economics: Policybazaar does not underwrite balance-sheet insurance risk or issue binding claim settlements. It operates as an IRDAI-registered insurance web aggregator.
+        </p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card" style="border-top: 4px solid var(--brand-teal);">
+          <div class="section-kicker">Intermediary Capability</div>
+          <h3 style="margin-bottom: 12px;">What Policybazaar Facilitates</h3>
+          <p style="color: var(--text-muted); font-size: 0.925rem; margin-bottom: 16px;">
+            The platform functions as an orchestration layer connecting consumers, insurers, and payment gateways:
+          </p>
+          <ul style="padding-left: 20px; font-size: 0.925rem; color: var(--text-main); display: flex; flex-direction: column; gap: 8px;">
+            <li><strong>Information Aggregation:</strong> Curates and presents structured quotes from multiple licensed carriers <a href="#ref-1" class="cite-ref">[1]</a>.</li>
+            <li><strong>Proposal Data Intake:</strong> Formats applicant demographic, vehicular, or health parameters into standardized payloads.</li>
+            <li><strong>Transactional Hand-off:</strong> Integrates payment gateways and transmits proposal records to insurer core systems.</li>
+            <li><strong>Post-Sales Coordination:</strong> Provides a unified account repository for document storage, renewal prompts, and claim lodging assistance <a href="#ref-2" class="cite-ref">[2]</a>.</li>
+            <li><strong>Assisted Conversion:</strong> Deploys licensed tele-advisers to guide complex policy selection under regulated conduct guidelines.</li>
+          </ul>
+        </div>
+
+        <div class="card" style="border-top: 4px solid var(--brand-amber);">
+          <div class="section-kicker" style="color: var(--brand-amber);">Underwriter Prerogative</div>
+          <h3 style="margin-bottom: 12px;">What Remains Solely with the Insurer</h3>
+          <p style="color: var(--text-muted); font-size: 0.925rem; margin-bottom: 16px;">
+            Statutory insurance obligations and financial risk-bearing reside entirely with licensed insurers:
+          </p>
+          <ul style="padding-left: 20px; font-size: 0.925rem; color: var(--text-main); display: flex; flex-direction: column; gap: 8px;">
+            <li><strong>Actuarial Product Design:</strong> Determining policy terms, exclusions, deductible limits, and baseline premium tables filed with IRDAI.</li>
+            <li><strong>Underwriting Judgment:</strong> Evaluating individual medical records, financial declarations, and accepting or declining risk coverage.</li>
+            <li><strong>Policy Contract Issuance:</strong> Binding legal contracts (policy schedules) are signed and issued by the underwriter, not the platform.</li>
+            <li><strong>Balance-Sheet Reserves:</strong> Maintaining statutory solvency margins and claims equalization reserves required by law.</li>
+            <li><strong>Final Claims Adjudication:</strong> Determining whether a cashless or reimbursement claim satisfies policy wording and calculating settlement payouts <a href="#ref-3" class="cite-ref">[3]</a>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Comparative Matrix Table -->
+      <div class="boundary-comparison-container">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th class="col-stage">Lifecycle Dimension</th>
+              <th class="col-platform">Platform Facilitation (Policybazaar)</th>
+              <th class="col-insurer">Insurer Statutory Decision</th>
+              <th class="col-authority">Ultimate Authority</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="col-stage">1. Product Comparison</td>
+              <td>Presents multi-carrier matrix with comparative premium, rider, and feature breakdowns.</td>
+              <td>Files product architecture, wordings, and mandatory risk classifications with IRDAI.</td>
+              <td><span class="tag-authority tag-customer">Customer Choice</span></td>
+            </tr>
+            <tr>
+              <td class="col-stage">2. Risk Assessment</td>
+              <td>Captures medical history, smoker habits, age, and pre-existing illness declarations via digital UI.</td>
+              <td>Underwriter examines declarations, prescribes tele-medicals, and applies actuarial loading or exclusions.</td>
+              <td><span class="tag-authority tag-insurer">Insurer Underwriting</span></td>
+            </tr>
+            <tr>
+              <td class="col-stage">3. Contract Binding</td>
+              <td>Routes premium payment to authorized merchant accounts and provides instant digital acknowledgment.</td>
+              <td>Issues formal Certificate of Insurance, stamps contract, and reserves statutory capital.</td>
+              <td><span class="tag-authority tag-insurer">Insurer Contract</span></td>
+            </tr>
+            <tr>
+              <td class="col-stage">4. Servicing & Renewals</td>
+              <td>Hosts customer account dashboard, renewal notifications, and endorsement routing workflows.</td>
+              <td>Approves formal policy endorsements (e.g., nominee updates) and continues underwriting liability.</td>
+              <td><span class="tag-authority tag-joint">Joint Coordination</span></td>
+            </tr>
+            <tr>
+              <td class="col-stage">5. Claims Resolution</td>
+              <td>Assists claimant in compiling documents, tracking claim docket status, and liaising with insurer desk.</td>
+              <td>Inspects clinical records, determines cashless eligibility or deductions, and disburses settlement funds.</td>
+              <td><span class="tag-authority tag-insurer">Insurer / TPA</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Section 4: The 5 Layers of Embedded Fintech -->
+    <section id="layers" class="doc-section">
+      <div class="section-header">
+        <div class="section-kicker">Section 04 · Technical Stack</div>
+        <h2 class="section-title">The Five Layers of Embedded Fintech</h2>
+        <p class="section-lead">
+          What makes Policybazaar a fintech infrastructure rather than a generic website? The coordination of financial data across five integrated operational layers.
+        </p>
+      </div>
+
+      <div class="layers-container">
+        <!-- Layer 1 -->
+        <div class="layer-card">
+          <div class="layer-meta">
+            <span class="layer-num">Layer 01 · Aggregation</span>
+            <span class="layer-name">Marketplace Layer</span>
+          </div>
+          <div class="layer-core">
+            <p>
+              Consolidates fragmented product portfolios across dozens of insurers into an interactive, real-time comparison grid. Reduces consumer search costs, standardizes coverage terminology, and exposes price-to-feature tradeoffs.
+            </p>
+          </div>
+          <div class="layer-controls">
+            <strong>Key Fintech Mechanisms</strong>
+            Parameter sorting, dynamic premium calculators, deductible sliders, contextual recommendation badges.
+          </div>
+        </div>
+
+        <!-- Layer 2 -->
+        <div class="layer-card">
+          <div class="layer-meta">
+            <span class="layer-num" style="color: var(--brand-blue);">Layer 02 · Ingestion</span>
+            <span class="layer-name">Structured Data Layer</span>
+          </div>
+          <div class="layer-core">
+            <p>
+              Converts unstructured applicant self-declarations into validated, machine-readable payloads required by insurer underwriting rule engines. Manages customer consent records for regulatory compliance.
+            </p>
+          </div>
+          <div class="layer-controls">
+            <strong>Key Fintech Mechanisms</strong>
+            Form validation pipelines, Aadhaar/PAN verification hooks, consent trail logging, digitized declaration storage.
+          </div>
+        </div>
+
+        <!-- Layer 3 -->
+        <div class="layer-card">
+          <div class="layer-meta">
+            <span class="layer-num" style="color: var(--brand-amber);">Layer 03 · Execution</span>
+            <span class="layer-name">Transaction Layer</span>
+          </div>
+          <div class="layer-core">
+            <p>
+              Manages the high-security conversion point: authenticating applicant identities, orchestrating payment via UPI, net banking, or debit/credit cards, and passing confirmed order tokens to insurer core systems.
+            </p>
+          </div>
+          <div class="layer-controls">
+            <strong>Key Fintech Mechanisms</strong>
+            PCI-DSS payment gateway routing, escrow reconciliation, instant webhook confirmation, automated policy issuance receipting.
+          </div>
+        </div>
+
+        <!-- Layer 4 -->
+        <div class="layer-card">
+          <div class="layer-meta">
+            <span class="layer-num" style="color: #8b5cf6;">Layer 04 · Lifecycle</span>
+            <span class="layer-name">Servicing Layer</span>
+          </div>
+          <div class="layer-core">
+            <p>
+              Maintains consumer engagement throughout the multi-year insurance lifecycle. Replaces fragmented paper policies with a single consolidated digital dashboard for coverage review, tax certificates, and renewals.
+            </p>
+          </div>
+          <div class="layer-controls">
+            <strong>Key Fintech Mechanisms</strong>
+            Consolidated policy locker, automated renewal payment triggers, self-service endorsement ticketing, claim status dashboard.
+          </div>
+        </div>
+
+        <!-- Layer 5 -->
+        <div class="layer-card">
+          <div class="layer-meta">
+            <span class="layer-num" style="color: #ec4899;">Layer 05 · Regulatory</span>
+            <span class="layer-name">Governance Layer</span>
+          </div>
+          <div class="layer-core">
+            <p>
+              Enforces statutory boundaries governed by the IRDAI (Insurance Web Aggregators) Regulations. Constrains lead transmission, preserves unedited audit trails of consumer disclosures, and monitors adviser interactions.
+            </p>
+          </div>
+          <div class="layer-controls">
+            <strong>Key Fintech Mechanisms</strong>
+            Telephonic call recording archives, statutory disclosure prompts, data localization, anti-steering compliance logs.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: Claims Architecture (Cashless vs Reimbursement) -->
+    <section id="claims" class="doc-section">
+      <div class="section-header">
+        <div class="section-kicker">Section 05 · Operational Deep-Dive</div>
+        <h2 class="section-title">Claims Architecture: Assistance vs. Settlement</h2>
+        <p class="section-lead">
+          Claims represent the ultimate "moment of truth" in insurance. Here we analyze the dual pathways of health insurance claims—cashless hospital coordination and reimbursement processing—demarcating platform support from underwriter adjudication.
+        </p>
+      </div>
+
+      <div class="claims-dual-grid">
+        <!-- Cashless Pathway -->
+        <div class="claim-path-card">
+          <span class="claim-path-badge badge-cashless">Pathway A · Hospital Network</span>
+          <h3 style="margin-bottom: 8px;">Cashless Hospitalization Claim</h3>
+          <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 14px;">
+            Requires admission to an empaneled network hospital where pre-authorization is exchanged directly between the hospital desk and the insurer's claims department or Third-Party Administrator (TPA) <a href="#ref-3" class="cite-ref">[3]</a>.
+          </p>
+
+          <ul class="claim-steps-list">
+            <li class="claim-step-item">
+              <span class="claim-step-bullet">1</span>
+              <div><strong>Pre-Authorization Request:</strong> Hospital insurance desk sends planned admission details and medical estimates to the insurer/TPA.</div>
+            </li>
+            <li class="claim-step-item">
+              <span class="claim-step-bullet">2</span>
+              <div><strong>Platform Assistance Role:</strong> Policybazaar provides an assistance helpline, helps locate network hospitals, and tracks insurer response times.</div>
+            </li>
+            <li class="claim-step-item">
+              <span class="claim-step-bullet">3</span>
+              <div><strong>Underwriter Adjudication:</strong> Insurer/TPA audits coverage, pre-existing clauses, and issues initial approval letter directly to the hospital.</div>
+            </li>
+            <li class="claim-step-item">
+              <span class="claim-step-bullet">4</span>
+              <div><strong>Discharge & Final Settlement:</strong> Insurer pays the hospital directly; patient settles only non-medical exclusions (e.g., consumables).</div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Reimbursement Pathway -->
+        <div class="claim-path-card">
+          <span class="claim-path-badge badge-reimburse">Pathway B · Post-Discharge Settlement</span>
+          <h3 style="margin-bottom: 8px;">Reimbursement Claim Workflow</h3>
+          <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 14px;">
+            Applicable when treatment occurs at a non-network hospital or when emergency admission precludes immediate pre-authorization. The policyholder pays hospital invoices upfront and seeks settlement post-discharge.
+          </p>
+
+          <ul class="claim-steps-list">
+            <li class="claim-step-item">
+              <span class="claim-step-bullet">1</span>
+              <div><strong>Upfront Payment & Discharge:</strong> Patient clears hospital bills directly and collects discharge summary, lab reports, and itemized receipts.</div>
+            </li>
+            <li class="claim-step-item">
+              <span class="claim-step-bullet">2</span>
+              <div><strong>Digital Claim Initiation:</strong> Customer initiates filing via Policybazaar's portal, uploading scanned diagnostic and financial records <a href="#ref-2" class="cite-ref">[2]</a>.</div>
+            </li>
+            <li class="claim-step-item">
+              <span class="claim-step-bullet">3</span>
+              <div><strong>Dossier Forwarding:</strong> Platform verifies document completeness against insurer checklists and forwards the dossier to the insurer's claims cell.</div>
+            </li>
+            <li class="claim-step-item">
+              <span class="claim-step-bullet">4</span>
+              <div><strong>Insurer Settlement Audit:</strong> Insurer evaluates medical necessity, applies deductibles and co-pays, and transfers funds directly to customer's bank account.</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" style="margin-top: 24px;">
+        <h4>Academic Boundary Clarification: Assistance Is Not Adjudication</h4>
+        <p>
+          While Policybazaar advertises dedicated claims support liaisons and on-ground assistance personnel, <strong>the intermediary has zero legal standing to approve, negotiate, or guarantee a claim payment</strong>. All medical auditing, deduction of non-payable items, and fraud investigations remain the non-delegable duty of the licensed insurer under IRDAI claims regulations <a href="#ref-3" class="cite-ref">[3]</a><a href="#ref-4" class="cite-ref">[4]</a>.
+        </p>
+      </div>
+    </section>
+
+    <!-- Section 6: Risks and Controls Matrix -->
+    <section id="risks" class="doc-section">
+      <div class="section-header">
+        <div class="section-kicker">Section 06 · Governance & Risk</div>
+        <h2 class="section-title">Critical Risks & Evaluated Control Mechanisms</h2>
+        <p class="section-lead">
+          Intermediating high-stakes financial contracts via digital interfaces introduces unique operational, legal, and behavioral risks requiring robust supervisory controls.
+        </p>
+      </div>
+
+      <!-- Filter and Search Bar -->
+      <div class="risk-filter-bar">
+        <button class="filter-btn active" data-filter="all">All Risks (5)</button>
+        <button class="filter-btn" data-filter="mis-selling">Mis-selling</button>
+        <button class="filter-btn" data-filter="privacy">Data Privacy</button>
+        <button class="filter-btn" data-filter="algorithm">Algorithmic Bias</button>
+        <button class="filter-btn" data-filter="operations">Hand-offs</button>
+        <button class="filter-btn" data-filter="security">Cyber & Fraud</button>
+        <input type="text" class="risk-search-input" id="risk-search" placeholder="Search risks or controls...">
+      </div>
+
+      <!-- Risk Table -->
+      <div class="risk-table-wrap">
+        <table class="risk-table" id="risk-table">
+          <thead>
+            <tr>
+              <th style="width: 24%;">Risk Category</th>
+              <th style="width: 38%;">Why It Matters in Digital Insurance</th>
+              <th style="width: 38%;">Evaluated Control Mechanisms</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-cat="mis-selling">
+              <td>
+                <span class="risk-pill risk-pill-high">High Risk</span>
+                <h4 style="font-size: 0.95rem; margin-top: 4px;">Mis-selling & Comparison Steering</h4>
+              </td>
+              <td>
+                Complex insurance contracts feature hidden exclusions, room-rent caps, and co-payment clauses. Aggregator sorting algorithms or adviser commission structures may subtly nudge consumers toward products with higher intermediary payouts rather than superior consumer suitability.
+              </td>
+              <td>
+                <strong>Mandatory Standardized Disclosures:</strong> Clear ranking criteria disclosures; unbundled rider options; recorded tele-adviser verification calls; strict compliance audits under IRDAI web-aggregator guidelines <a href="#ref-4" class="cite-ref">[4]</a>.
+              </td>
+            </tr>
+
+            <tr data-cat="privacy">
+              <td>
+                <span class="risk-pill risk-pill-high">High Risk</span>
+                <h4 style="font-size: 0.95rem; margin-top: 4px;">Sensitive Health & Identity Privacy</h4>
+              </td>
+              <td>
+                Applicants provide deeply intimate medical history, hereditary disease reports, lifestyle declarations, and statutory identity proofs (Aadhaar/PAN). Unauthorized data leakage or secondary commercial exploitation represents severe privacy infringement.
+              </td>
+              <td>
+                <strong>Purpose Limitation & Consent Architecture:</strong> Explicit, granular customer consent mechanisms; end-to-end data encryption in transit and at rest; strict retention limits; compliance with India's Digital Personal Data Protection (DPDP) Act.
+              </td>
+            </tr>
+
+            <tr data-cat="algorithm">
+              <td>
+                <span class="risk-pill risk-pill-med">Medium Risk</span>
+                <h4 style="font-size: 0.95rem; margin-top: 4px;">Algorithmic Bias & Triage Discrimination</h4>
+              </td>
+              <td>
+                Machine-learning models filtering applicant eligibility or estimating pre-underwriting acceptance may disproportionately disadvantage vulnerable demographics, senior citizens, or specific postal codes based on historical proxy data.
+              </td>
+              <td>
+                <strong>Algorithmic Audits & Human Escalation:</strong> Regular bias testing of recommendation engines across age, gender, and geographical cohorts; clear human-in-the-loop review pathways for applicants rejected by automated triage rules.
+              </td>
+            </tr>
+
+            <tr data-cat="operations">
+              <td>
+                <span class="risk-pill risk-pill-med">Medium Risk</span>
+                <h4 style="font-size: 0.95rem; margin-top: 4px;">Multi-Party Operational Hand-off Friction</h4>
+              </td>
+              <td>
+                The insurance journey crosses four distinct organizational IT environments: the customer app, the aggregator platform, the insurer policy engine, and third-party hospital network/TPA desks. In emergencies, payload synchronization failures cause severe delays.
+              </td>
+              <td>
+                <strong>Unified Status Tracking & SLA Ownership:</strong> Standardized REST API integrations with insurers; transparent claims docket tracking; explicit SLA ownership between aggregator liaison and insurer claims desks <a href="#ref-2" class="cite-ref">[2]</a>.
+              </td>
+            </tr>
+
+            <tr data-cat="security">
+              <td>
+                <span class="risk-pill risk-pill-reg">Regulatory Risk</span>
+                <h4 style="font-size: 0.95rem; margin-top: 4px;">Cybersecurity Vulnerabilities & Claims Fraud</h4>
+              </td>
+              <td>
+                Digital onboarding without physical agent verification invites identity spoofing, synthetic profiles, and altered medical hospital invoices during reimbursement claims.
+              </td>
+              <td>
+                <strong>Multi-Factor Authentication & Verification:</strong> Integration with official identity databases (DigiLocker / Aadhaar OTP); automated metadata inspection of uploaded hospital bills; anomaly detection algorithms monitoring repeat claim patterns.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Section 7: MBA Seminar & Discussion Questions -->
+    <section id="questions" class="doc-section">
+      <div class="section-header">
+        <div class="section-kicker">Section 07 · Classroom Analysis</div>
+        <h2 class="section-title">MBA Seminar & Discussion Questions</h2>
+        <p class="section-lead">
+          Strategic, regulatory, and economic questions designed for graduate-level case discussions examining the future of platform intermediation in regulated financial services.
+        </p>
+      </div>
+
+      <div class="qa-container">
+        <!-- Question 1 -->
+        <div class="qa-card open">
+          <div class="qa-header">
+            <div class="qa-header-left">
+              <span class="qa-num-badge">Q1</span>
+              <h4>Self-Service Automation vs. Assisted Human Advisory</h4>
+            </div>
+            <div class="qa-icon">▼</div>
+          </div>
+          <div class="qa-body">
+            <p>
+              <strong>Seminar Prompt:</strong> While simple motor insurance renewals can run 100% self-service, high-value comprehensive health and term life insurance frequently involve tele-advisers before policy issuance. At what product complexity threshold does human mediation become economically necessary, and how does this affect operating margins?
+            </p>
+            <div>
+              <span class="qa-implication-tag">CAC Economics</span>
+              <span class="qa-implication-tag">Trust & Conversion</span>
+              <span class="qa-implication-tag">Labor Intensity</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="qa-card">
+          <div class="qa-header">
+            <div class="qa-header-left">
+              <span class="qa-num-badge">Q2</span>
+              <h4>Aligning Intermediary Commissions with Impartial Comparisons</h4>
+            </div>
+            <div class="qa-icon">▼</div>
+          </div>
+          <div class="qa-body">
+            <p>
+              <strong>Seminar Prompt:</strong> An insurance aggregator generates revenue through statutory distribution commissions and service fees paid by partner insurers <a href="#ref-5" class="cite-ref">[5]</a>. How can a comparison platform design its sorting algorithms and UI disclosures to maintain consumer trust while managing commercial partner relationships?
+            </p>
+            <div>
+              <span class="qa-implication-tag">Platform Governance</span>
+              <span class="qa-implication-tag">IRDAI Web Aggregator Rules</span>
+              <span class="qa-implication-tag">Fiduciary Duty</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question 3 -->
+        <div class="qa-card">
+          <div class="qa-header">
+            <div class="qa-header-left">
+              <span class="qa-num-badge">Q3</span>
+              <h4>Empirically Demonstrating Claims Assistance Value</h4>
+            </div>
+            <div class="qa-icon">▼</div>
+          </div>
+          <div class="qa-body">
+            <p>
+              <strong>Seminar Prompt:</strong> Policybazaar emphasizes post-purchase claims support as a core differentiator <a href="#ref-3" class="cite-ref">[3]</a>. What empirical metrics (e.g., dispute turnaround times, query resolution ratios, document rejection reduction) should researchers examine to evaluate whether platform assistance tangibly improves customer outcomes compared to direct insurer filing?
+            </p>
+            <div>
+              <span class="qa-implication-tag">Empirical Evaluation</span>
+              <span class="qa-implication-tag">Claims Resolution Ratios</span>
+              <span class="qa-implication-tag">Service Operations</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question 4 -->
+        <div class="qa-card">
+          <div class="qa-header">
+            <div class="qa-header-left">
+              <span class="qa-num-badge">Q4</span>
+              <h4>The Regulatory Firebreak: AI Decision Support vs. Statutory Underwriting</h4>
+            </div>
+            <div class="qa-icon">▼</div>
+          </div>
+          <div class="qa-body">
+            <p>
+              <strong>Seminar Prompt:</strong> As generative and predictive AI tools enter the insurance stack, where should platforms draw the line between algorithm-assisted customer guidance and legally binding underwriting decisions? What regulatory guardrails prevent an intermediary's algorithmic scoring from preemptively denying coverage without insurer review?
+            </p>
+            <div>
+              <span class="qa-implication-tag">AI Ethics & Accountability</span>
+              <span class="qa-implication-tag">Statutory Underwriting</span>
+              <span class="qa-implication-tag">Regulatory Perimeter</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question 5 -->
+        <div class="qa-card">
+          <div class="qa-header">
+            <div class="qa-header-left">
+              <span class="qa-num-badge">Q5</span>
+              <h4>Data Network Effects & Insurance Product Innovation</h4>
+            </div>
+            <div class="qa-icon">▼</div>
+          </div>
+          <div class="qa-body">
+            <p>
+              <strong>Seminar Prompt:</strong> Having aggregated billions of quote requests and customer interaction signals over years, does an aggregator hold superior aggregate behavioral insight compared to individual insurers? How can that data layer incentivize insurers to co-create bespoke, modular insurance products without compromising customer data ownership?
+            </p>
+            <div>
+              <span class="qa-implication-tag">Data Monopolies</span>
+              <span class="qa-implication-tag">Embedded Insurance</span>
+              <span class="qa-implication-tag">Product Co-creation</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 8: Methodology, Limitations & Primary Sources -->
+    <section id="sources" class="doc-section">
+      <div class="section-header">
+        <div class="section-kicker">Section 08 · Academic Integrity</div>
+        <h2 class="section-title">Research Methodology & Primary Sources</h2>
+        <p class="section-lead">
+          This case study adheres to rigorous academic standards: all factual descriptions are grounded exclusively in verified public primary disclosures and regulatory statutes.
+        </p>
+      </div>
+
+      <div class="card" id="methodology" style="margin-bottom: 28px;">
+        <h3 style="margin-bottom: 10px;">Methodological Protocol & Academic Disclaimers</h3>
+        <p style="color: var(--text-muted); font-size: 0.925rem; line-height: 1.65; margin-bottom: 12px;">
+          This study was conducted for graduate classroom instruction in financial technology and digital market architecture. To ensure factual precision and prevent speculation:
+        </p>
+        <ul style="padding-left: 20px; font-size: 0.9rem; color: var(--text-main); display: flex; flex-direction: column; gap: 8px;">
+          <li><strong>No Proprietary Assertion:</strong> Non-public internal algorithms, API schemas, commercial partner revenue-share percentages, and private insurer contracts are deliberately excluded unless formally documented in public regulatory filings.</li>
+          <li><strong>Separation of Fact vs. Inference:</strong> Observable process touchpoints are derived from audited company disclosures and live user interfaces; theoretical frameworks (e.g., the 5-layer fintech stack and risk categorizations) are explicitly labeled as author analysis.</li>
+          <li><strong>No Regulatory Overstatement:</strong> Regulatory mandates are cited directly from published Insurance Regulatory and Development Authority of India (IRDAI) circulars and statutory web aggregator frameworks.</li>
+        </ul>
+      </div>
+
+      <div class="sources-grid">
+        <!-- Source 1 -->
+        <div class="source-card" id="ref-1">
+          <div>
+            <span class="source-ref-badge">[1] Primary Source</span>
+            <h4>Policybazaar Official Portal</h4>
+            <p>Public product discovery interfaces, multi-carrier comparative pricing matrices, and advertised customer claims support pathways.</p>
+          </div>
+          <a href="https://www.policybazaar.com/" target="_blank" rel="noopener noreferrer" class="source-link-action">
+            Visit policybazaar.com
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          </a>
+        </div>
+
+        <!-- Source 2 -->
+        <div class="source-card" id="ref-2">
+          <div>
+            <span class="source-ref-badge">[2] Primary Source</span>
+            <h4>Policybazaar Contact & Servicing Portal</h4>
+            <p>Documentation of customer account authentication, policy tracking docket workflows, endorsement management, and claims escalation channels.</p>
+          </div>
+          <a href="https://www.policybazaar.com/contact-us/" target="_blank" rel="noopener noreferrer" class="source-link-action">
+            Visit contact & support
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          </a>
+        </div>
+
+        <!-- Source 3 -->
+        <div class="source-card" id="ref-3">
+          <div>
+            <span class="source-ref-badge">[3] Primary Source</span>
+            <h4>Health Insurance Claims Process Disclosure</h4>
+            <p>Official procedural documentation distinguishing cashless hospital network claims from post-discharge reimbursement protocols and insurer roles.</p>
+          </div>
+          <a href="https://www.policybazaar.com/health-insurance/claim/" target="_blank" rel="noopener noreferrer" class="source-link-action">
+            Visit claim process guide
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          </a>
+        </div>
+
+        <!-- Source 4 -->
+        <div class="source-card" id="ref-4">
+          <div>
+            <span class="source-ref-badge">[4] Statutory Framework</span>
+            <h4>IRDAI Web Aggregator Regulations</h4>
+            <p>Statutory regulatory framework defining web aggregators, lead generation norms, supervisory disclosure requirements, and record-keeping mandates.</p>
+          </div>
+          <a href="https://irdai.gov.in/document-detail?documentId=373502" target="_blank" rel="noopener noreferrer" class="source-link-action">
+            View IRDAI statutory regulations
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          </a>
+        </div>
+
+        <!-- Source 5 -->
+        <div class="source-card" id="ref-5">
+          <div>
+            <span class="source-ref-badge">[5] Investor Disclosures</span>
+            <h4>PB Fintech Investor Relations</h4>
+            <p>Audited annual financial reports, investor presentations, corporate governance filings, and business model operational disclosures of Policybazaar's parent entity.</p>
+          </div>
+          <a href="https://www.pbfintech.in/investor-relations/" target="_blank" rel="noopener noreferrer" class="source-link-action">
+            Visit PB Fintech investor portal
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Fullscreen Interactive Presentation Mode (Deck) -->
+  <div id="presentation-mode-container" role="dialog" aria-label="MBA Presentation Deck">
+    <!-- Top Deck Header -->
+    <div class="deck-top-bar">
+      <div class="deck-title-mini">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5eead4" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        <span>Policybazaar: How Fintech Is Embedded in Digital Insurance</span>
+      </div>
+      <div class="deck-controls">
+        <span class="deck-counter" id="deck-counter">Slide 1 of 11</span>
+        <button class="btn-ctrl" id="btn-toggle-notes" title="Toggle speaker notes (N)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          Speaker Notes (N)
+        </button>
+        <button class="btn-ctrl" id="btn-exit-presentation" title="Exit presentation (Esc)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          Close (Esc)
+        </button>
+      </div>
+    </div>
+
+    <!-- Slide Stage Area -->
+    <div class="deck-stage-area">
+      <div class="slide-wrapper" id="slide-content-wrapper">
+        <!-- Injected via JavaScript based on active slide index -->
+      </div>
+    </div>
+
+    <!-- Speaker Notes Drawer -->
+    <div class="deck-notes-drawer" id="deck-notes-drawer">
+      <strong>Speaker Notes / Class Facilitation Guide:</strong>
+      <span id="deck-speaker-notes-text">Notes will appear here...</span>
+    </div>
+
+    <!-- Bottom Deck Navigation Bar -->
+    <div class="deck-bottom-bar">
+      <div class="deck-nav-buttons">
+        <button class="deck-btn" id="btn-prev-slide" disabled>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          Previous
+        </button>
+        <button class="deck-btn" id="btn-next-slide">
+          Next
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </div>
+
+      <div class="deck-dots-indicator" id="deck-dots">
+        <!-- 11 Dots generated dynamically -->
+      </div>
+
+      <div style="font-size: 0.8rem; color: #64748b; font-family: 'JetBrains Mono', monospace;">
+        Use ← → arrows to navigate
+      </div>
+    </div>
+  </div>
+
+  <!-- Academic Footer -->
+  <footer class="academic-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>Policybazaar Fintech Academic Case Study</h3>
+          <p>
+            An independent research project analyzing digital intermediation, technological orchestration, and regulatory boundaries in Indian insurtech. Prepared exclusively from publicly accessible regulatory filings, corporate disclosures, and verifiable product workflows.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4>Case Sections</h4>
+          <ul>
+            <li><a href="#summary">Executive Summary</a></li>
+            <li><a href="#journey">Customer Journey Map</a></li>
+            <li><a href="#boundary">Platform vs. Insurer Role</a></li>
+            <li><a href="#layers">5 Fintech Layers</a></li>
+            <li><a href="#risks">Risk & Controls Framework</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Primary Disclosures</h4>
+          <ul>
+            <li><a href="https://www.policybazaar.com/" target="_blank" rel="noreferrer">Policybazaar Portal [1]</a></li>
+            <li><a href="https://www.policybazaar.com/contact-us/" target="_blank" rel="noreferrer">Support & Servicing [2]</a></li>
+            <li><a href="https://www.policybazaar.com/health-insurance/claim/" target="_blank" rel="noreferrer">Claims Architecture [3]</a></li>
+            <li><a href="https://irdai.gov.in/document-detail?documentId=373502" target="_blank" rel="noreferrer">IRDAI Web Aggregator Rules [4]</a></li>
+            <li><a href="https://www.pbfintech.in/investor-relations/" target="_blank" rel="noreferrer">PB Fintech Disclosures [5]</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>Academic Research · No proprietary metrics or unverified non-public claims asserted.</div>
+        <div>Indian Insurance Market · Regulated under IRDAI Framework</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Interactive JavaScript Application Engine -->
+  <script>
+    (function() {
+      // Stage Data for Section 2 Interactive Inspector
+      const stageData = {
+        1: {
+          num: "Stage 01",
+          title: "Discover: Need Identification & Category Selection",
+          desc: "The customer initiates the insurance journey by identifying a personal, family, or asset protection need (e.g., term life, health, motor, travel). The platform provides categorized landing modules that capture high-level intent without immediately demanding sensitive medical declarations.",
+          observable: "Category entry (health, life, car), age, city selection, and baseline coverage requirement inputs.",
+          fintech: "Intent classification algorithms, responsive dynamic UX, initial actuarial proxy filtering.",
+          authority: "Customer chooses what categories to explore; Insurers define available base product catalog.",
+          analysis: "Standardized product classifications eliminate search friction without locking consumers into an offline agent relationship [1]."
+        },
+        2: {
+          num: "Stage 02",
+          title: "Compare: Digital Marketplace & Multi-Carrier Quotes",
+          desc: "The platform dynamically queries and surfaces comparative pricing, network hospital counts, claim settlement ratios (CSR), and rider packages across competing licensed insurers in a unified side-by-side view.",
+          observable: "Real-time comparison grid displaying annualized premiums, room-rent caps, deductible options, and CSR metrics.",
+          fintech: "Multi-quote aggregation engine, real-time premium calculation algorithms, dynamic filtering by deductible and add-on riders.",
+          authority: "Customer selects preferred plan; Insurers determine product architecture and statutory rate tables.",
+          analysis: "Multi-carrier comparison shifts market power to consumers by converting opaque policy brochures into transparent, sortable parameter matrices [1]."
+        },
+        3: {
+          num: "Stage 03",
+          title: "Input: Risk Profiling & Medical/Identity Declarations",
+          desc: "The applicant inputs personal, familial, vehicular, and detailed health history (pre-existing diseases, smoking habits, surgeries, nominee designations). This data forms the formal statutory basis of the proposal form.",
+          observable: "Form submission capturing lifestyle habits, pre-existing conditions, Aadhaar/PAN identity fields, and nominee details.",
+          fintech: "Structured data ingestion pipeline, instant client-side validation rules, consent audit trail logging.",
+          authority: "Insurer evaluates underwriting requirements; Platform captures and formats data without medical discretion.",
+          analysis: "Structured data capture minimizes proposal errors and standardizes information hand-off to insurer underwriting rule engines."
+        },
+        4: {
+          num: "Stage 04",
+          title: "Purchase: Payment Gateway & Issuance Coordination",
+          desc: "The customer reviews policy declarations, signs digital consent disclosures, and completes payment through an integrated payment gateway. The transaction is validated and forwarded to the carrier.",
+          observable: "Payment authorization via UPI/cards/net banking, instant payment receipt generation, policy issuance tracking status.",
+          fintech: "PCI-DSS tokenized payment gateway routing, secure insurer API payload delivery, automated issuance status webhooks.",
+          authority: "Insurer issues legal policy contract; Insurer retains full statutory risk liability upon underwriting acceptance.",
+          analysis: "Payment orchestration eliminates manual premium cheque collection and links bank authorization directly to insurer policy creation [5]."
+        },
+        5: {
+          num: "Stage 05",
+          title: "Service: Consolidated Account Vault & Renewal Automation",
+          desc: "Post-purchase, the policyholder accesses an authenticated account repository displaying all active and historical policies across different insurers, with options for endorsement requests, tax certificates, and renewal alerts.",
+          observable: "Customer dashboard login, policy schedule PDF downloads, 80D tax receipts, contact detail update tickets.",
+          fintech: "Centralized policy repository architecture, automated renewal reminder engines, multi-channel service ticket routing.",
+          authority: "Insurer handles formal contractual endorsements subject to policy terms; Platform provides access UI.",
+          analysis: "Persistent account servicing transforms a one-time sales transaction into an enduring multi-year relationship asset [2]."
+        },
+        6: {
+          num: "Stage 06",
+          title: "Claim: Digital Intimation & Dedicated Assistance Desk",
+          desc: "In the event of a covered hospital admission or accident, the policyholder lodges a claim assistance docket. Policybazaar assists with document checklists, network hospital coordination, and liaison with insurer claims cells.",
+          observable: "Digital claim intimation form, hospital bill scanning/uploading, claim tracking docket, helpline coordination.",
+          fintech: "Document intake validation checklists, real-time claim status tracking, hospital network geo-locator.",
+          authority: "Insurer or appointed TPA assesses medical eligibility, applies deductions, and disburses settlement funds.",
+          analysis: "While the platform provides logistics and tracking assistance, it possesses zero authority to adjudicate or guarantee claims [3][4]."
+        }
+      };
+
+      // 11 Slides Data for Fullscreen Presentation Deck Mode
+      const slidesData = [
+        {
+          kicker: "Slide 01 · Title & Context",
+          title: "Policybazaar: How Fintech Is Embedded in Digital Insurance",
+          body: `
+            <div style="font-size: 1.15rem; margin-bottom: 24px; color: #e2e8f0;">
+              An Academic Case Study in Digital Intermediation, Customer Journey Architecture, and Regulated Decision Boundaries.
+            </div>
+            <div class="grid-2" style="margin-top: 20px;">
+              <div class="card">
+                <h4>Academic Scope & Focus</h4>
+                <p style="font-size: 0.95rem; margin-top: 8px;">
+                  Investigates how PB Fintech's Policybazaar transforms Indian insurance distribution from an opaque, fragmented offline model into an orchestrated digital workflow.
+                </p>
+              </div>
+              <div class="card">
+                <h4>Three Core Research Inquiries</h4>
+                <p style="font-size: 0.95rem; margin-top: 8px;">
+                  1. How does the customer journey flow?<br>
+                  2. Where does fintech specifically appear in that flow?<br>
+                  3. What regulatory and operational boundaries must be maintained?
+                </p>
+              </div>
+            </div>
+            <div style="margin-top: 24px; font-size: 0.85rem; color: #94a3b8;">
+              Entity: Policybazaar / PB Fintech Ltd. · Regulated by IRDAI as an Insurance Web Aggregator · Public Source Research
+            </div>
+          `,
+          notes: "Introduce the case study by emphasizing that digital insurance is not just an e-commerce website with checkout; it is an orchestrated fintech workflow coordinating regulated financial contracts."
+        },
+        {
+          kicker: "Slide 02 · Strategic Executive Summary",
+          title: "Core Finding: Fintech in Workflow Orchestration",
+          body: `
+            <div class="callout callout-blue" style="margin-bottom: 24px; background: rgba(2, 132, 199, 0.15); border-left-color: #0284c7;">
+              <h4 style="font-size: 1.25rem; color: #fff;">Fintech Is Embedded in Workflow Coordination, Not Just Payments</h4>
+              <p style="font-size: 1rem; color: #cbd5e1; margin-top: 6px;">
+                The platform reduces search friction, structures complex applicant risk declarations, coordinates payment and issuance hand-offs, and maintains an active servicing relationship post-sale.
+              </p>
+            </div>
+            <div class="grid-3">
+              <div class="card">
+                <h4 style="color: #5eead4;">1. Information Friction</h4>
+                <p style="font-size: 0.9rem; margin-top: 8px;">Multi-quote comparison brings transparent parameter evaluation across dozens of competing carriers into a single screen [1].</p>
+              </div>
+              <div class="card">
+                <h4 style="color: #5eead4;">2. Structured Risk Intake</h4>
+                <p style="font-size: 0.9rem; margin-top: 8px;">Demographic and medical facts are converted into machine-readable payloads for insurer rule engines.</p>
+              </div>
+              <div class="card">
+                <h4 style="color: #5eead4;">3. Non-Delegable Underwriting</h4>
+                <p style="font-size: 0.9rem; margin-top: 8px;">The insurer alone bears balance-sheet capital requirements, medical underwriting risk, and binding claim adjudication [4].</p>
+              </div>
+            </div>
+          `,
+          notes: "Emphasize the distinction between workflow orchestration (the platform) and balance-sheet risk assumption (the insurer). This is the central thesis of the case."
+        },
+        {
+          kicker: "Slide 03 · End-to-End Process Map",
+          title: "The 6-Stage Customer Journey Architecture",
+          body: `
+            <p style="margin-bottom: 20px; font-size: 1rem; color: #cbd5e1;">
+              The digital insurance lifecycle spans six sequential customer stages, coupled with real-time audit trails and insurer underwriting hand-offs:
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+              <div class="card">
+                <div class="step-badge">Stage 01 · Discover</div>
+                <h4 style="margin: 6px 0;">Need Identification</h4>
+                <p style="font-size: 0.85rem; color: #94a3b8;">High-level intent classification without intrusive upfront medical gating.</p>
+              </div>
+              <div class="card">
+                <div class="step-badge">Stage 02 · Compare</div>
+                <h4 style="margin: 6px 0;">Digital Marketplace</h4>
+                <p style="font-size: 0.85rem; color: #94a3b8;">Side-by-side pricing, features, hospital network counts, and CSR metrics [1].</p>
+              </div>
+              <div class="card">
+                <div class="step-badge">Stage 03 · Input</div>
+                <h4 style="margin: 6px 0;">Profile & Risk Data</h4>
+                <p style="font-size: 0.85rem; color: #94a3b8;">Structured medical declarations, lifestyle inputs, and identity data.</p>
+              </div>
+              <div class="card">
+                <div class="step-badge">Stage 04 · Buy</div>
+                <h4 style="margin: 6px 0;">Payment & Issuance</h4>
+                <p style="font-size: 0.85rem; color: #94a3b8;">PCI-DSS payment gateway routing and insurer API issuance handshake [5].</p>
+              </div>
+              <div class="card">
+                <div class="step-badge">Stage 05 · Service</div>
+                <h4 style="margin: 6px 0;">Account & Renewals</h4>
+                <p style="font-size: 0.85rem; color: #94a3b8;">Consolidated policy repository, endorsement routing, and tax certs [2].</p>
+              </div>
+              <div class="card">
+                <div class="step-badge">Stage 06 · Claim</div>
+                <h4 style="margin: 6px 0;">Assistance & Tracking</h4>
+                <p style="font-size: 0.85rem; color: #94a3b8;">Digital claim lodging and docket status monitoring for policyholders [3].</p>
+              </div>
+            </div>
+          `,
+          notes: "Walk through the six stages. Highlight that while offline insurance traditionally ended at the point of sale, digital aggregators maintain continuous servicing and claims coordination."
+        },
+        {
+          kicker: "Slide 04 · Institutional Demarcation",
+          title: "The Critical Boundary: Platform vs. Insurer",
+          body: `
+            <div class="grid-2">
+              <div class="card" style="border-left: 4px solid #0d9488;">
+                <h4 style="color: #5eead4; margin-bottom: 10px;">Platform Facilitation (Policybazaar)</h4>
+                <ul style="font-size: 0.9rem; padding-left: 18px; display: flex; flex-direction: column; gap: 8px;">
+                  <li>Aggregates standardized product quotes from licensed carriers.</li>
+                  <li>Captures user declarations in a validated digital format.</li>
+                  <li>Executes premium routing through authorized payment gateways.</li>
+                  <li>Hosts digital policy vault and handles renewal reminder workflows.</li>
+                  <li>Coordinates claim documentation and tracks insurer response times.</li>
+                </ul>
+              </div>
+              <div class="card" style="border-left: 4px solid #d97706;">
+                <h4 style="color: #fbbf24; margin-bottom: 10px;">Statutory Insurer Decision (Underwriter)</h4>
+                <ul style="font-size: 0.9rem; padding-left: 18px; display: flex; flex-direction: column; gap: 8px;">
+                  <li>Files actuarial product architecture and rate tables with IRDAI.</li>
+                  <li>Assesses applicant risk and decides whether to accept or decline.</li>
+                  <li>Issues legally binding policy contract and Certificate of Insurance.</li>
+                  <li>Holds required solvency margins and balance-sheet reserves.</li>
+                  <li>Sole legal authority to adjudicate, deduct, or settle claims.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="callout callout-amber" style="margin-top: 20px; background: rgba(217, 119, 6, 0.15);">
+              <strong>Regulatory Guardrail:</strong> Under IRDAI regulations, an insurance web aggregator is explicitly prohibited from assuming insurance liability or guaranteeing claim outcomes [4].
+            </div>
+          `,
+          notes: "This slide is vital for MBA students to avoid conflating digital distribution with balance-sheet insurance. Make sure everyone understands why aggregators do not hold risk."
+        },
+        {
+          kicker: "Slide 05 · Architectural Decomposition",
+          title: "The Five Layers of Embedded Fintech",
+          body: `
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <div class="card" style="padding: 14px 20px;">
+                <strong style="color: #5eead4;">1. Marketplace Layer:</strong> Reduces cognitive and search friction across dozens of insurers via dynamic multi-quote comparison matrices [1].
+              </div>
+              <div class="card" style="padding: 14px 20px;">
+                <strong style="color: #38bdf8;">2. Structured Data Layer:</strong> Ingests applicant facts, validates mandatory fields, records explicit customer consent trails, and structures payloads for underwriting engines.
+              </div>
+              <div class="card" style="padding: 14px 20px;">
+                <strong style="color: #fbbf24;">3. Transaction Layer:</strong> Coordinates PCI-DSS tokenized payment gateways, automates premium collection, and executes API issuance handshakes with insurers [5].
+              </div>
+              <div class="card" style="padding: 14px 20px;">
+                <strong style="color: #c084fc;">4. Servicing Layer:</strong> Replaces isolated paper documents with a unified digital policy repository, automated renewal triggers, and endorsement tracking [2].
+              </div>
+              <div class="card" style="padding: 14px 20px;">
+                <strong style="color: #f472b6;">5. Governance & Audit Layer:</strong> Enforces IRDAI web-aggregator compliance, archives telephonic advisory call recordings, and maintains verifiable audit trails [4].
+              </div>
+            </div>
+          `,
+          notes: "Deconstruct the technical stack into its 5 layers. Show how each layer addresses a specific operational friction in the insurance value chain."
+        },
+        {
+          kicker: "Slide 06 · Claims Architecture",
+          title: "Claims Execution: Cashless vs. Reimbursement",
+          body: `
+            <div class="grid-2">
+              <div class="card">
+                <span class="claim-path-badge badge-cashless">Cashless Hospital Network</span>
+                <h4 style="margin: 8px 0;">Pre-Authorization Model</h4>
+                <p style="font-size: 0.88rem; color: #cbd5e1; line-height: 1.5;">
+                  Planned or emergency hospital admission at an empaneled network facility. Pre-authorization is exchanged directly between hospital insurance desk and insurer/TPA. Policybazaar assists with hospital locator tools and query resolution [3].
+                </p>
+              </div>
+              <div class="card">
+                <span class="claim-path-badge badge-reimburse">Reimbursement Workflow</span>
+                <h4 style="margin: 8px 0;">Post-Discharge Filing</h4>
+                <p style="font-size: 0.88rem; color: #cbd5e1; line-height: 1.5;">
+                  Patient settles hospital invoices directly at non-network hospitals and uploads scanned discharge summaries, lab reports, and receipts via Policybazaar's digital claims portal. Dossier is compiled and forwarded to the insurer for medical review [2].
+                </p>
+              </div>
+            </div>
+            <div class="card" style="margin-top: 18px; border-left: 4px solid #38bdf8;">
+              <h4 style="color: #38bdf8;">Assistance vs. Adjudication Principle</h4>
+              <p style="font-size: 0.9rem; margin-top: 6px; color: #cbd5e1;">
+                Platform claim assistance provides logistics tracking and document preparation support. The licensed insurer retains exclusive statutory jurisdiction over claim approval, medical necessity scrutiny, and payout computation [3][4].
+              </p>
+            </div>
+          `,
+          notes: "Explain the two distinct claims pathways in health insurance. Highlight the role of Third-Party Administrators (TPAs) and the boundary of platform assistance."
+        },
+        {
+          kicker: "Slide 07 · Risk & Governance Matrix",
+          title: "Critical Operational & Regulatory Risks",
+          body: `
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              <div class="card" style="padding: 16px 20px;">
+                <strong style="color: #f87171;">1. Mis-selling & Algorithmic Steering:</strong> Intermediary commercial incentives may steer consumers to high-commission plans. <em>Control:</em> Standardized ranking disclosures, recorded advisory scripts, unbundled add-ons [4].
+              </div>
+              <div class="card" style="padding: 16px 20px;">
+                <strong style="color: #f87171;">2. Sensitive Health & Financial Data:</strong> Collection of medical histories and Aadhaar/PAN. <em>Control:</em> Explicit consent logs, purpose limitation, encryption, compliance with DPDP Act.
+              </div>
+              <div class="card" style="padding: 16px 20px;">
+                <strong style="color: #fbbf24;">3. Multi-Party Hand-off Disconnects:</strong> Friction across customer, platform, insurer, and hospital TPA systems. <em>Control:</em> Automated API status webhooks, standardized document checklists, SLA monitoring [2].
+              </div>
+              <div class="card" style="padding: 16px 20px;">
+                <strong style="color: #38bdf8;">4. Digital Onboarding Fraud:</strong> Forged medical bills or synthetic identity creation. <em>Control:</em> DigiLocker / Aadhaar OTP verification, automated invoice metadata audits.
+              </div>
+            </div>
+          `,
+          notes: "Focus on how digital interfaces create new behavioral and systemic risks that traditional brick-and-mortar insurance did not face at this scale."
+        },
+        {
+          kicker: "Slide 08 · Strategy & Business Model",
+          title: "Intermediary Economics: Economics of Aggregation",
+          body: `
+            <div class="grid-2">
+              <div class="card">
+                <h4>Revenue Model Under IRDAI</h4>
+                <p style="font-size: 0.9rem; margin-top: 8px; color: #cbd5e1;">
+                  Policybazaar earns regulated distribution commissions and service fees from insurance partners upon successful policy issuance, as disclosed in PB Fintech annual reports [5].
+                </p>
+              </div>
+              <div class="card">
+                <h4>Friction & CAC Dynamics</h4>
+                <p style="font-size: 0.9rem; margin-top: 8px; color: #cbd5e1;">
+                  Digital comparison drastically reduces customer acquisition cost (CAC) compared to agency branches, but requires sustained marketing expenditure and hybrid tele-advisory support.
+                </p>
+              </div>
+            </div>
+            <div class="callout callout-blue" style="margin-top: 20px;">
+              <h4>Strategic Discussion Angle</h4>
+              <p style="font-size: 0.95rem; color: #cbd5e1;">
+                How does an aggregator balance the dual mandate of providing impartial comparison for consumers while depending on commissions from the very insurers whose products it ranks?
+              </p>
+            </div>
+          `,
+          notes: "Ask students to analyze the platform business model: is Policybazaar primarily a tech company or a digital broker with high marketing expenses?"
+        },
+        {
+          kicker: "Slide 09 · Seminar Discussion Questions",
+          title: "Classroom Seminar Inquiries (Part 1)",
+          body: `
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+              <div class="card" style="padding: 20px;">
+                <span class="step-badge">Inquiry 01 · Channel Economics</span>
+                <h4 style="margin: 6px 0; font-size: 1.1rem;">Where Does Human Advisory Remain Indispensable?</h4>
+                <p style="font-size: 0.925rem; color: #cbd5e1;">
+                  While motor insurance renewals are predominantly self-service, high-sum insured health and term life policies frequently rely on tele-advisers. What is the economic tipping point for human-assisted conversion?
+                </p>
+              </div>
+              <div class="card" style="padding: 20px;">
+                <span class="step-badge">Inquiry 02 · Fiduciary Neutrality</span>
+                <h4 style="margin: 6px 0; font-size: 1.1rem;">Commission Transparency & Impartial Recommendation</h4>
+                <p style="font-size: 0.925rem; color: #cbd5e1;">
+                  Can an aggregator maintain genuine consumer impartiality when commission rates vary across underwriting partners? What governance safeguards should regulators mandate?
+                </p>
+              </div>
+            </div>
+          `,
+          notes: "Open the floor to students on Inquiry 1 and Inquiry 2. Probe the trade-off between margin efficiency and conversion lift."
+        },
+        {
+          kicker: "Slide 10 · Seminar Discussion Questions",
+          title: "Classroom Seminar Inquiries (Part 2)",
+          body: `
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+              <div class="card" style="padding: 20px;">
+                <span class="step-badge">Inquiry 03 · Claims Efficacy</span>
+                <h4 style="margin: 6px 0; font-size: 1.1rem;">Demonstrating Claims Assistance Value</h4>
+                <p style="font-size: 0.925rem; color: #cbd5e1;">
+                  Which quantitative metrics (e.g., query turnaround time, document deficiency rejection rate) would empirically demonstrate that platform claim assistance improves outcomes over direct insurer filing?
+                </p>
+              </div>
+              <div class="card" style="padding: 20px;">
+                <span class="step-badge">Inquiry 04 · Algorithmic Perimeter</span>
+                <h4 style="margin: 6px 0; font-size: 1.1rem;">AI Decision Support vs. Regulated Underwriting</h4>
+                <p style="font-size: 0.925rem; color: #cbd5e1;">
+                  Where should AI provide customer decision support, and where must hard statutory firewalls prevent automated algorithms from making adverse underwriting or claim rejection decisions?
+                </p>
+              </div>
+            </div>
+          `,
+          notes: "Deep dive into AI ethics and claims metrics. Encourage students to formulate hypotheses on how to measure claims assistance efficacy."
+        },
+        {
+          kicker: "Slide 11 · Academic Methodology & Sources",
+          title: "Research Methodology & Primary Disclosures",
+          body: `
+            <div class="card" style="margin-bottom: 20px;">
+              <h4>Academic Methodological Standard</h4>
+              <p style="font-size: 0.925rem; color: #cbd5e1; margin-top: 8px;">
+                Based strictly on audited public disclosures, regulatory statutes, and observable application interfaces. Deliberately excludes non-public internal algorithms, proprietary API schemas, or unverified claims.
+              </p>
+            </div>
+            <div class="grid-2">
+              <div class="card" style="font-size: 0.85rem;">
+                <strong>Primary Corporate Disclosures</strong>
+                <ul style="padding-left: 16px; margin-top: 6px; display: flex; flex-direction: column; gap: 4px; color: #94a3b8;">
+                  <li>Policybazaar Portal [1]: policybazaar.com</li>
+                  <li>Customer Support Portal [2]: policybazaar.com/contact-us</li>
+                  <li>Claims Architecture Guide [3]: policybazaar.com/health-insurance/claim</li>
+                  <li>PB Fintech Investor Relations [5]: pbfintech.in/investor-relations</li>
+                </ul>
+              </div>
+              <div class="card" style="font-size: 0.85rem;">
+                <strong>Statutory Framework</strong>
+                <ul style="padding-left: 16px; margin-top: 6px; display: flex; flex-direction: column; gap: 4px; color: #94a3b8;">
+                  <li>IRDAI Web Aggregator Regulations [4]</li>
+                  <li>Insurance Regulatory and Development Authority of India</li>
+                  <li>Document ID: 373502 (Web Aggregator Framework)</li>
+                </ul>
+              </div>
+            </div>
+          `,
+          notes: "Conclude by reviewing the primary sources. Reiterate that scholarly integrity in fintech case studies requires strictly anchoring claims in verified disclosures."
+        }
+      ];
+
+      // --- Interactive State & Controller ---
+      let currentSlide = 0;
+      let notesVisible = false;
+
+      // DOM Elements
+      const stageInspector = document.getElementById("stage-inspector");
+      const inspNum = document.getElementById("insp-num");
+      const inspTitle = document.getElementById("insp-title");
+      const inspDesc = document.getElementById("insp-desc");
+      const inspAnalysis = document.getElementById("insp-analysis");
+      const inspObservable = document.getElementById("insp-observable");
+      const inspFintech = document.getElementById("insp-fintech");
+      const inspAuthority = document.getElementById("insp-authority");
+      const journeyNav = document.getElementById("journey-nav");
+
+      const presentationContainer = document.getElementById("presentation-mode-container");
+      const slideWrapper = document.getElementById("slide-content-wrapper");
+      const deckCounter = document.getElementById("deck-counter");
+      const deckDots = document.getElementById("deck-dots");
+      const btnPrev = document.getElementById("btn-prev-slide");
+      const btnNext = document.getElementById("btn-next-slide");
+      const notesDrawer = document.getElementById("deck-notes-drawer");
+      const notesText = document.getElementById("deck-speaker-notes-text");
+      const btnToggleNotes = document.getElementById("btn-toggle-notes");
+      const btnExitPresentation = document.getElementById("btn-exit-presentation");
+      const btnLaunchPresentation = document.getElementById("btn-launch-presentation");
+      const btnToggleView = document.getElementById("btn-toggle-view");
+      const btnThemeToggle = document.getElementById("btn-theme-toggle");
+      const themeText = document.getElementById("theme-text");
+      const btnPrintDoc = document.getElementById("btn-print-doc");
+      const readingBar = document.getElementById("reading-bar");
+
+      // Initialize Interactive Journey Map Tabs
+      if (journeyNav) {
+        journeyNav.addEventListener("click", function(e) {
+          const btn = e.target.closest(".journey-step-btn");
+          if (!btn) return;
+          const stageId = btn.getAttribute("data-stage");
+          if (!stageData[stageId]) return;
+
+          journeyNav.querySelectorAll(".journey-step-btn").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+
+          const d = stageData[stageId];
+          inspNum.textContent = d.num;
+          inspTitle.textContent = d.title;
+          inspDesc.textContent = d.desc;
+          inspAnalysis.innerHTML = d.analysis;
+          inspObservable.textContent = d.observable;
+          inspFintech.textContent = d.fintech;
+          inspAuthority.textContent = d.authority;
+        });
+      }
+
+      // Initialize Deck Dots
+      if (deckDots) {
+        slidesData.forEach((_, idx) => {
+          const dot = document.createElement("div");
+          dot.className = "deck-dot" + (idx === 0 ? " active" : "");
+          dot.setAttribute("data-slide-idx", idx);
+          dot.addEventListener("click", () => renderSlide(idx));
+          deckDots.appendChild(dot);
+        });
+      }
+
+      function renderSlide(idx) {
+        if (idx < 0 || idx >= slidesData.length) return;
+        currentSlide = idx;
+        const slide = slidesData[currentSlide];
+
+        slideWrapper.innerHTML = `
+          <div class="slide-kicker">${slide.kicker}</div>
+          <h2 class="slide-title">${slide.title}</h2>
+          <div class="slide-body">${slide.body}</div>
+        `;
+
+        deckCounter.textContent = `Slide ${currentSlide + 1} of ${slidesData.length}`;
+        notesText.textContent = slide.notes;
+
+        btnPrev.disabled = currentSlide === 0;
+        btnNext.disabled = currentSlide === slidesData.length - 1;
+
+        if (deckDots) {
+          deckDots.querySelectorAll(".deck-dot").forEach((d, i) => {
+            d.classList.toggle("active", i === currentSlide);
+          });
+        }
+      }
+
+      function openPresentationMode(slideIdx = 0) {
+        presentationContainer.classList.add("active");
+        document.body.style.overflow = "hidden";
+        renderSlide(slideIdx);
+      }
+
+      function closePresentationMode() {
+        presentationContainer.classList.remove("active");
+        document.body.style.overflow = "";
+      }
+
+      // Event Listeners for Presentation Deck
+      if (btnLaunchPresentation) {
+        btnLaunchPresentation.addEventListener("click", () => openPresentationMode(0));
+      }
+      if (btnToggleView) {
+        btnToggleView.addEventListener("click", () => openPresentationMode(0));
+      }
+      if (btnExitPresentation) {
+        btnExitPresentation.addEventListener("click", closePresentationMode);
+      }
+      if (btnPrev) {
+        btnPrev.addEventListener("click", () => renderSlide(currentSlide - 1));
+      }
+      if (btnNext) {
+        btnNext.addEventListener("click", () => renderSlide(currentSlide + 1));
+      }
+      if (btnToggleNotes) {
+        btnToggleNotes.addEventListener("click", () => {
+          notesVisible = !notesVisible;
+          notesDrawer.classList.toggle("open", notesVisible);
+        });
+      }
+
+      openPresentationMode(0); // Check URL hash or query param for presentation mode
+      if (window.location.hash === "#present" || window.location.search.includes("present=true")) {
+        setTimeout(() => openPresentationMode(0), 100);
+      }
+
+      // Keyboard Shortcuts for Navigation
+      window.addEventListener("keydown", function(e) {
+        if (presentationContainer.classList.contains("active")) {
+          if (e.key === "ArrowRight" || e.key === " ") {
+            if (currentSlide < slidesData.length - 1) renderSlide(currentSlide + 1);
+          } else if (e.key === "ArrowLeft") {
+            if (currentSlide > 0) renderSlide(currentSlide - 1);
+          } else if (e.key === "Escape") {
+            closePresentationMode();
+          } else if (e.key.toLowerCase() === "n") {
+            notesVisible = !notesVisible;
+            notesDrawer.classList.toggle("open", notesVisible);
+          }
+        } else {
+          if (e.key.toLowerCase() === "p" && !["input", "textarea"].includes(document.activeElement.tagName.toLowerCase())) {
+            openPresentationMode(0);
+          }
+        }
+      });
+
+      // Reading Progress Bar Tracker
+      window.addEventListener("scroll", function() {
+        const docElem = document.documentElement;
+        const totalHeight = docElem.scrollHeight - docElem.clientHeight;
+        if (totalHeight > 0) {
+          const progress = (docElem.scrollTop / totalHeight) * 100;
+          readingBar.style.width = progress + "%";
+        }
+      });
+
+      // Risk Matrix Filter and Search Engine
+      const riskFilters = document.querySelectorAll(".filter-btn");
+      const riskSearch = document.getElementById("risk-search");
+      const riskTable = document.getElementById("risk-table");
+
+      function filterRiskTable() {
+        const activeBtn = document.querySelector(".filter-btn.active");
+        const category = activeBtn ? activeBtn.getAttribute("data-filter") : "all";
+        const query = riskSearch ? riskSearch.value.toLowerCase().trim() : "";
+        const rows = riskTable.querySelectorAll("tbody tr");
+
+        rows.forEach(row => {
+          const rowCat = row.getAttribute("data-cat");
+          const text = row.textContent.toLowerCase();
+          const matchCat = category === "all" || rowCat === category;
+          const matchQuery = query === "" || text.includes(query);
+          row.style.display = matchCat && matchQuery ? "" : "none";
+        });
+      }
+
+      riskFilters.forEach(btn => {
+        btn.addEventListener("click", () => {
+          riskFilters.forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          filterRiskTable();
+        });
+      });
+
+      if (riskSearch) {
+        riskSearch.addEventListener("input", filterRiskTable);
+      }
+
+      // Discussion Questions Accordion Toggle
+      const qaHeaders = document.querySelectorAll(".qa-header");
+      qaHeaders.forEach(hdr => {
+        hdr.addEventListener("click", () => {
+          const card = hdr.closest(".qa-card");
+          card.classList.toggle("open");
+        });
+      });
+
+      // Theme Toggle (Light / Dark)
+      if (btnThemeToggle) {
+        btnThemeToggle.addEventListener("click", () => {
+          const currentTheme = document.body.getAttribute("data-theme") || "light";
+          const newTheme = currentTheme === "light" ? "dark" : "light";
+          document.body.setAttribute("data-theme", newTheme);
+          themeText.textContent = newTheme === "light" ? "Dark Mode" : "Light Mode";
+        });
+      }
+
+      // Print / PDF Button
+      if (btnPrintDoc) {
+        btnPrintDoc.addEventListener("click", () => window.print());
+      }
+
+    })();
+  </script>
+</body>
+</html>
